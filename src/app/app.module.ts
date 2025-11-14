@@ -19,7 +19,7 @@ import { ComponentsModule } from './components/components.module';
     BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,
-    ComponentsModule,
+    ComponentsModule, // Aqui esta la iomportacion del modulo de componentes
     NgbModule,
     RouterModule,
     AppRoutingModule

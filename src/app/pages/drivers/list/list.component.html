@@ -1,0 +1,9 @@
+<div>.</div>
+<div>
+    <app-table 
+        [data]="drivers"
+        [headers]="headers"
+        [actionButtons]="actionButtons"
+        (actionClicked)="handleTableAction($event)">
+    </app-table>
+</div>

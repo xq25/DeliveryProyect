@@ -20,5 +20,15 @@ export const AdminLayoutRoutes: Routes = [
                 loadChildren: () => import('src/app/pages/theaters/theaters.module').then(m => m.TheatersModule)
             }
         ]
+    },
+    {
+        path: '',
+        children: [
+            {
+                path: 'drivers',
+                loadChildren: () => import('src/app/pages/drivers/drivers.module').then(m => m.DriversModule)
+            }
+        ]
     }
+
 ];

@@ -1,0 +1,47 @@
+<div class="table-responsive mt-5 pt-3">
+
+  <table class="table table-striped table-hover align-middle">
+
+    <thead class="table-dark">
+      <tr>
+        <th *ngFor="let h of headers" class="text-capitalize">
+          {{ h }}
+        </th>
+
+        <!-- Si hay botones, agregamos columna de acciones -->
+        <th *ngIf="actionButtons.length > 0" class="text-center">
+          Acciones
+        </th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let item of data">
+        
+        <!-- Datos de cada columna -->
+        <td *ngFor="let h of headers">
+          {{ item[h] }}
+        </td>
+
+        <!-- Columna de botones -->
+        <td *ngIf="actionButtons.length > 0" class="text-center">
+          <button
+            *ngFor="let btn of actionButtons"
+            [class]="btn.class"
+            (click)="handleAction(btn.action, item)"
+            class="me-1"
+          >
+            {{ btn.label }}
+          </button>
+        </td>
+
+      </tr>
+    </tbody>
+
+  </table>
+
+  <div *ngIf="data.length === 0" class="alert alert-secondary text-center m-0">
+    No hay datos disponibles.
+  </div>
+
+</div>
