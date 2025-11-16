@@ -1,0 +1,116 @@
+<div class="card shadow" *ngIf="form">
+  <div class="card-header bg-transparent">
+    <h3 class="mb-0" *ngIf="mode === 1">Detalle</h3>
+    <h3 class="mb-0" *ngIf="mode === 2">Crear</h3>
+    <h3 class="mb-0" *ngIf="mode === 3">Actualizar</h3>
+  </div>
+
+  <div class="card-body">
+
+    <form [formGroup]="form" class="container">
+
+      <div class="row" *ngFor="let key of keys">
+        
+        <!-- Ocultar campos -->
+        <ng-container *ngIf="!isHidden(key)">
+
+          <!-- Label -->
+          <div class="col-3 text-capitalize">
+            {{ key.replace('_', ' ') }}
+          </div>
+
+          <!-- Input -->
+          <div class="col-9">
+
+            <input 
+              [type]="isNumberField(key) ? 'number' : 'text'"
+              class="form-control"
+              [formControlName]="key"
+              [disabled]="disableFields.includes(key) || mode === 1"
+            />
+
+            <!-- MENSAJES DE ERROR -->
+            <div *ngIf="
+              f[key].errors && 
+              (f[key].dirty || f[key].touched || trySend)
+            ">
+
+              <strong 
+                *ngIf="f[key].errors?.required"
+                class="text-danger">
+                Requerido
+              </strong>
+
+              <strong 
+                *ngIf="f[key].errors?.minlength"
+                class="text-danger">
+                Mínimo {{ f[key].errors.minlength.requiredLength }} caracteres
+              </strong>
+
+              <strong 
+                *ngIf="f[key].errors?.maxlength"
+                class="text-danger">
+                Máximo {{ f[key].errors.maxlength.requiredLength }} caracteres
+              </strong>
+
+              <strong 
+                *ngIf="f[key].errors?.min"
+                class="text-danger">
+                Valor mínimo: {{ f[key].errors.min.min }}
+              </strong>
+
+              <strong 
+                *ngIf="f[key].errors?.max"
+                class="text-danger">
+                Valor máximo: {{ f[key].errors.max.max }}
+              </strong>
+
+              <strong 
+                *ngIf="f[key].errors?.email"
+                class="text-danger">
+                Correo inválido
+              </strong>
+
+            </div>
+          </div>
+
+        </ng-container>
+
+      </div>
+
+      <br />
+
+      <!-- Botón de acción dinámico -->
+      <div class="row">
+        <div class="col-3"></div>
+
+        <div class="col-9">
+          <button 
+            *ngIf="mode === 1"
+            type="button" 
+            class="btn btn-primary btn-block"
+            (click)="submitForm()">
+            Regresar
+          </button>
+
+          <button 
+            *ngIf="mode === 2"
+            type="button" 
+            class="btn btn-success btn-block"
+            (click)="submitForm()">
+            Crear
+          </button>
+
+          <button 
+            *ngIf="mode === 3"
+            type="button" 
+            class="btn btn-warning btn-block"
+            (click)="submitForm()">
+            Actualizar
+          </button>
+        </div>
+      </div>
+
+    </form>
+  </div>
+</div>

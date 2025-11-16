@@ -14,6 +14,7 @@ export class ListComponent implements OnInit {
   drivers: Driver[] = [];
   headers: string[] = [];
   actionButtons = [
+    { label: 'Ver', class: 'btn btn-info btn-sm', action: 'view' },
     { label: 'Editar', class: 'btn btn-warning btn-sm', action: 'edit' },
     { label: 'Eliminar', class: 'btn btn-danger btn-sm', action: 'delete' }
   ];
@@ -26,6 +27,9 @@ export class ListComponent implements OnInit {
         this.headers = Object.keys(data[0]);
       }
     });
+  }
+  view(id: number){
+    this.router.navigate([`/drivers/view/${id}`])
   }
   delete(id: number) {
       console.log("Delete theater with id:", id);
@@ -51,7 +55,7 @@ export class ListComponent implements OnInit {
             });
         }
       })
-    }
+  }
   
   update(id: number){
     this.router.navigate([`/drivers/update/${id}`])

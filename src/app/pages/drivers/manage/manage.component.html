@@ -1,1 +1,8 @@
-<p>manage works!</p>
+<app-basic-form
+  [info]="driver"
+  [mode]="mode"
+  [rules]="rules"
+  [disableFields]="disableFields"
+  [hiddenFields]="hiddenFields"
+  (onSubmit)="handleSubmit($event)"
+></app-basic-form>

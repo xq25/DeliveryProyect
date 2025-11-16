@@ -44,9 +44,9 @@
                 "scripts": true,
                 "styles": {
                   "minify": false,
-                  "inlineCritical": false
+                  "inlineCritical": true
                 },
-                "fonts": false
+                "fonts": true
               },
               "outputHashing": "all",
               "sourceMap": false,
@@ -71,9 +71,9 @@
                 "scripts": true,
                 "styles": {
                   "minify": false,
-                  "inlineCritical": false
+                  "inlineCritical": true
                 },
-                "fonts": false
+                "fonts": true
               },
               "outputHashing": "all"
             }
