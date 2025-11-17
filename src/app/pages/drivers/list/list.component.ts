@@ -56,6 +56,9 @@ export class ListComponent implements OnInit {
         }
       })
   }
+  create(){
+    this.router.navigate([`/drivers/create`])
+  }
   
   update(id: number){
     this.router.navigate([`/drivers/update/${id}`])

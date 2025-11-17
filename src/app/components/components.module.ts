@@ -6,27 +6,30 @@ import { FooterComponent } from './footer/footer.component';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TableComponent } from './table/table.component';
-import { BasicFormComponent } from './basic-form/basic-form.component';
+
+import { ReactiveFormsModule } from '@angular/forms';
+import { DynamicFormComponent } from './dynamic-form/dynamic-form.component';
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule,
-    NgbModule
+    NgbModule,
+    ReactiveFormsModule,
   ],
   declarations: [
     FooterComponent,
     NavbarComponent,
     SidebarComponent,
     TableComponent,
-    BasicFormComponent
+    DynamicFormComponent,
   ],
   exports: [
     FooterComponent,
     NavbarComponent,
     SidebarComponent, 
     TableComponent,
-    BasicFormComponent
+    DynamicFormComponent,
   ]
 })
 export class ComponentsModule { }

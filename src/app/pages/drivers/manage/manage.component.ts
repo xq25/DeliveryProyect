@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Driver } from 'src/app/models/Driver';
 import { DriversService } from 'src/app/services/drivers.service';
+import { Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -11,89 +12,125 @@ import Swal from 'sweetalert2';
 })
 export class ManageComponent implements OnInit {
 
-  mode: number = 1;                         // 1=view, 2=create, 3=update
-  driver: Driver = new Driver();            // Instancia base del formulario
+  mode: number; // 1 = view, 2 = create, 3 = update
 
-  rules: any = {};                          // Reglas del formulario
-  disableFields: string[] = [];             // Campos deshabilitados
-  hiddenFields: string[] = [];              // Campos ocultos
+  driver: Driver | undefined;
 
-  loading: boolean = true;
+  /** Campos del formulario */
+  fields: string[] = [
+    'id',
+    'name',
+    'license_number',
+    'phone',
+    'email',
+    'status'
+  ];
 
-  constructor(private activatedRoute: ActivatedRoute,private service: DriversService,private router: Router) {}
+  /** Configuración del formulario dinámico */
+  formConfig: any;
+
+  /** Reglas del formulario */
+  rules: any = {};
+
+  /** Campos deshabilitados */
+  disableFields: string[] = [];
+
+  /** Campos ocultos */
+  hiddenFields: string[] = [];
+
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private service: DriversService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
 
-    // Detectar modo con base en la URL
+    // Detectar modo según la URL
     const url = this.activatedRoute.snapshot.url.join('/');
 
     if (url.includes('view')) this.mode = 1;
     else if (url.includes('create')) this.mode = 2;
     else if (url.includes('update')) this.mode = 3;
 
-    
-    // Configuramos los campos ocultos y deshabilitados
+    // Configuración inicial de campos
     this.disableFields = ['id'];
-    this.hiddenFields = ['id'] ;
-    // Configurar reglas del formulario
+    this.hiddenFields = ['id'];
+
     this.setupRules();
 
+    // Si hay id → cargar driver
+    const id = this.activatedRoute.snapshot.params['id'];
 
-    // Verificar si hay param id → view/update
-    if (this.activatedRoute.snapshot.params.id) {
-      const id = this.activatedRoute.snapshot.params.id;
+    if (id) {
       this.loadDriver(id);
     } else {
-      this.loading = false;
+      this.driver = undefined;
+      this.buildFormConfig(); // construir configuración vacía
     }
   }
 
+  /** Reglas de validación */
   setupRules() {
     this.rules = {
-      name: { validators: ['required', { minlength: 3 }] },
-      license_number: { validators: ['required'] },
-      phone: { validators: ['required', { minlength: 7 }] },
-      email: { validators: ['required', 'email'] },
-      status: { validators: ['required'] }
+      name: [Validators.required, Validators.minLength(3)],
+      license_number: [Validators.required],
+      phone: [Validators.required, Validators.minLength(7)],
+      email: [Validators.required, Validators.email],
+      status: [Validators.required]
     };
 
-    // Ejemplo: en create ocultas el status
-    if (this.mode === 2) this.hiddenFields.push('status');
+    // Ocultar status en modo crear
+    if (this.mode === 2) {
+      this.hiddenFields.push('status');
+    }
   }
 
-  loadDriver(id: number) {
+  loadDriver(id: number) {/* Cargar información para modo view/update */
     this.service.view(id).subscribe({
       next: (response) => {
         this.driver = response;
-        this.loading = false;
+        this.buildFormConfig();
       },
       error: (error) => {
         console.error('Error loading driver', error);
-        this.loading = false;
       }
     });
   }
 
-  // ============================================================
-  // FUNCIÓNES QUE RECIBE EL FORMULARIO CUANDO SE ENVÍA
-  // ============================================================
+  /** Construye el objeto que enviará al DynamicForm */
+  buildFormConfig() {
+    this.formConfig = {
+      mode: this.mode,
+      fields: this.fields,
+      rules: this.rules,
+      hiddenFields: this.hiddenFields,
+      disableFields: this.disableFields,
+      model: this.driver || {}  // datos iniciales
+    };
+  }
 
-  handleSubmit = (formValue: any) => {
+  /* Manejo del evento emitido por el formulario */
+  handleFormSubmit(event: { action: 'back' | 'create' | 'update', data?: any }) {
+    if (!event) return;
 
-    if (this.mode === 1) {
+    if (event.action === 'back') {
       this.router.navigate(['/drivers/list']);
       return;
     }
 
-    if (this.mode === 2) {
-      this.createDriver(formValue);
+    if (event.action === 'create') {
+      this.createDriver(event.data);
+      return;
     }
 
-    if (this.mode === 3) {
-      this.updateDriver(formValue);
+    if (event.action === 'update') {
+      this.updateDriver(event.data);
+      return;
     }
-  };
+  }
 
+  /** Crear */
   createDriver(formValue: any) {
     this.service.create(formValue).subscribe({
       next: () => {
@@ -107,6 +144,7 @@ export class ManageComponent implements OnInit {
     });
   }
 
+  /** Actualizar */
   updateDriver(formValue: any) {
     this.service.update(formValue).subscribe({
       next: () => {
@@ -119,4 +157,5 @@ export class ManageComponent implements OnInit {
       }
     });
   }
+
 }

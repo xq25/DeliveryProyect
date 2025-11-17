@@ -1,0 +1,94 @@
+<div class="form-wrapper">
+  
+  <!-- Encabezado -->
+  <h2 class="form-title">
+    {{ config.mode === 1 ? 'Detalle del Registro' : (config.mode === 2 ? 'Crear Registro' : 'Actualizar Registro') }}
+  </h2>
+
+  <!-- Formulario -->
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-5">
+
+    <!-- Recorrer campos -->
+    <ng-container *ngFor="let field of config.fields">
+
+      <ng-container *ngIf="!config.hiddenFields.includes(field)">
+
+        <div class="form-group">
+
+          <!-- Label -->
+          <label class="form-label">
+            {{ field | titlecase }}
+          </label>
+
+          <!-- Input -->
+          <input
+            *ngIf="!config.selectFields?.includes(field)"
+            [type]="detectInputType(field)"
+            class="form-input"
+            [formControlName]="field"
+            [disabled]="config.mode === 1"
+          />
+
+          <!-- Select -->
+          <select
+            *ngIf="config.selectFields?.includes(field)"
+            class="form-input"
+            [formControlName]="field"
+            [disabled]="config.mode === 1"
+          >
+            <option value="">Seleccione...</option>
+            <option *ngFor="let opt of config.selectFields[field]" [value]="opt">
+              {{ opt }}
+            </option>
+          </select>
+
+          <!-- Errores -->
+          <div class="form-error" *ngIf="form.get(field)?.invalid && form.get(field)?.touched">
+            <span *ngIf="form.get(field)?.errors?.['required']">Este campo es obligatorio</span>
+            <span *ngIf="form.get(field)?.errors?.['email']">Formato de email inválido</span>
+            <span *ngIf="form.get(field)?.errors?.['minlength']">
+              Debe tener mínimo {{ form.get(field)?.errors?.['minlength'].requiredLength }} caracteres
+            </span>
+          </div>
+
+        </div>
+
+      </ng-container>
+
+    </ng-container>
+
+    <!-- Botones -->
+    <div class="form-actions">
+
+      <button
+        *ngIf="config.mode === 1"
+        type="button"
+        class="btn btn-secondary"
+        (click)="submit.emit({ action: 'back' })"
+      >
+        Volver
+      </button>
+
+      <button
+        *ngIf="config.mode === 2"
+        class="btn btn-success"
+        type="submit"
+        [disabled]="form.invalid"
+      >
+        Crear
+      </button>
+
+      <button
+        *ngIf="config.mode === 3"
+        class="btn btn-warning"
+        type="submit"
+        [disabled]="form.invalid"
+      >
+        Actualizar
+      </button>
+
+    </div>
+
+  </form>
+
+</div>

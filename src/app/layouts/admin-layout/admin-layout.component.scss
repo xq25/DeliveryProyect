@@ -1,0 +1,34 @@
+/* --- Sidebar fijo a la izquierda --- */
+app-sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 250px; // Tamaño estándar del Argon dashboard
+  z-index: 1031; // Debe estar debajo del navbar pero encima del contenido
+}
+
+/* --- Contenedor principal (contenido + navbar) --- */
+.main-content {
+  margin-left: 250px; // Misma medida del sidebar
+  padding-top: 70px;  // Misma altura del navbar
+  min-height: 100vh;
+  background: #f8f9fe;
+  position: relative;
+}
+
+/* --- Navbar fijo arriba --- */
+app-navbar {
+  position: fixed;
+  top: 0;
+  left: 250px; // Para que aparezca a la derecha del sidebar
+  right: 0;
+  height: 70px;
+  z-index: 1032;
+}
+
+/* --- Asegurar que el router-outlet no quede debajo del navbar --- */
+router-outlet + * {
+  display: block;
+  margin-top: 20px;
+}

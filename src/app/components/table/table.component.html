@@ -1,46 +1,46 @@
-<div class="table-responsive mt-5 pt-3">
+<div class="data-table-wrapper">
 
-  <table class="table table-striped table-hover align-middle">
-
-    <thead class="table-dark">
+  <table class="data-table">
+    
+    <thead>
       <tr>
-        <th *ngFor="let h of headers" class="text-capitalize">
-          {{ h }}
+        <th *ngFor="let h of headers" class="th-title">
+          {{ h | titlecase }}
         </th>
 
-        <!-- Si hay botones, agregamos columna de acciones -->
-        <th *ngIf="actionButtons.length > 0" class="text-center">
+        <!-- Columna Acciones -->
+        <th *ngIf="actionButtons.length > 0" class="th-title text-center">
           Acciones
         </th>
       </tr>
     </thead>
 
     <tbody>
-      <tr *ngFor="let item of data">
-        
-        <!-- Datos de cada columna -->
-        <td *ngFor="let h of headers">
+
+      <tr *ngFor="let item of data" class="tr-row">
+
+        <td *ngFor="let h of headers" class="td-cell">
           {{ item[h] }}
         </td>
 
-        <!-- Columna de botones -->
-        <td *ngIf="actionButtons.length > 0" class="text-center">
+        <td *ngIf="actionButtons.length > 0" class="td-actions text-center">
           <button
             *ngFor="let btn of actionButtons"
-            [class]="btn.class"
             (click)="handleAction(btn.action, item)"
-            class="me-1"
+            class="action-btn"
+            [ngClass]="btn.class"
           >
             {{ btn.label }}
           </button>
         </td>
 
       </tr>
-    </tbody>
 
+    </tbody>
   </table>
 
-  <div *ngIf="data.length === 0" class="alert alert-secondary text-center m-0">
+  <!-- Sin datos -->
+  <div *ngIf="data.length === 0" class="no-data">
     No hay datos disponibles.
   </div>
 

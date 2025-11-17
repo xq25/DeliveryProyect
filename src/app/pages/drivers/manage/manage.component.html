@@ -1,8 +1,5 @@
-<app-basic-form
-  [info]="driver"
-  [mode]="mode"
-  [rules]="rules"
-  [disableFields]="disableFields"
-  [hiddenFields]="hiddenFields"
-  (onSubmit)="handleSubmit($event)"
-></app-basic-form>
+<app-dynamic-form 
+  *ngIf="formConfig"
+  [config]="formConfig"
+  (submit)="handleFormSubmit($event)">
+</app-dynamic-form>

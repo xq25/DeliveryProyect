@@ -52,15 +52,18 @@ export class ListComponent implements OnInit {
       }
     })
   }
+  create()  {
+    this.router.navigate([`/theaters/create`])
+  }
 
-  update(){
-    this.router.navigate(['/'])
+  update(id: number){
+    this.router.navigate([`/theaters/update/${id}`])
   }
 
   handleTableAction(event: any) {
     console.log('Acción recibida:', event);
     if (event.action === 'edit') {
-      this.update()
+      this.update(event.row.id);
     }
     else if (event.action === 'delete') {
       this.delete(event.row.id);

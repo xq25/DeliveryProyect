@@ -1,0 +1,98 @@
+/* ======= WRAPPER ======= */
+.data-table-wrapper {
+  margin-top: 1.5rem;
+  width: 100%;
+  overflow-x: auto;
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 1rem;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+}
+
+
+/* ======= TABLE ======= */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.data-table thead {
+  background: #1f2937; /* gris oscuro elegante */
+  color: white;
+}
+
+.th-title {
+  padding: 12px;
+  text-align: left;
+  font-weight: 600;
+  user-select: none;
+}
+
+/* Rows */
+.tr-row {
+  border-bottom: 1px solid #e5e7eb;
+  transition: all 0.15s ease-in-out;
+}
+
+.tr-row:hover {
+  background-color: #f3f4f6;
+}
+
+/* Cells */
+.td-cell {
+  padding: 12px;
+  color: #374151;
+}
+
+.td-actions {
+  padding: 12px;
+}
+
+/* ======= BOTONES DE ACCIÓN ======= */
+.action-btn {
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  margin-right: 6px;
+  transition: all 0.2s ease;
+}
+
+/* Botones dinámicos según tu config */
+.action-btn.edit {
+  background: #3b82f6;
+  color: #fff;
+}
+.action-btn.edit:hover {
+  background: #2563eb;
+}
+
+.action-btn.delete {
+  background: #ef4444;
+  color: #fff;
+}
+.action-btn.delete:hover {
+  background: #dc2626;
+}
+
+.action-btn.view {
+  background: #6b7280;
+  color: #fff;
+}
+.action-btn.view:hover {
+  background: #4b5563;
+}
+
+/* No data */
+.no-data {
+  padding: 1.2rem;
+  text-align: center;
+  color: #6b7280;
+  background: #f3f4f6;
+  border-radius: 10px;
+  font-weight: 500;
+  margin-top: 1rem;
+}
