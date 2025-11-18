@@ -29,6 +29,15 @@ export const AdminLayoutRoutes: Routes = [
                 loadChildren: () => import('src/app/pages/drivers/drivers.module').then(m => m.DriversModule)
             }
         ]
+    },
+    {
+        path: '',
+        children: [
+            {
+                path: 'customers',
+                loadChildren: () => import('src/app/pages/customers/customers.module').then(m => m.CustomersModule)
+            }
+        ]
     }
 
 ];

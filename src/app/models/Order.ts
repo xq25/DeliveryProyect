@@ -5,5 +5,5 @@ export class Order{
     status: string;
     motorcycle_id: number;
     customer_id: number;
-    meenu_id: number;
+    menu_id: number;
 }
