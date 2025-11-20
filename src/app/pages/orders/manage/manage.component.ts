@@ -21,9 +21,9 @@ export class ManageComponent implements OnInit {
   order: Order | undefined;
 
   /** IDs que irán al select */
-  motorcycles_id: number[] = [];
-  customers_id: number[] = [];
-  menus_id: number[] = [];
+  motorcycles: Object[] = [];
+  customers: Object[] = [];
+  menus: Object[] = [];
 
   /** Campos del formulario */
   fields: string[] = [
@@ -69,9 +69,9 @@ export class ManageComponent implements OnInit {
     this.getIds(() => {
       // Luego de tener los IDs ya podemos construir los selectFields
       this.selectFields = {
-        motorcycle_id: this.motorcycles_id,
-        customer_id: this.customers_id,
-        menu_id: this.menus_id,
+        motorcycle_id: this.motorcycles,
+        customer_id: this.customers,
+        menu_id: this.menus,
       };
 
       // Cargar registro (si aplica)
@@ -115,12 +115,16 @@ export class ManageComponent implements OnInit {
 
     // CUSTOMERS
     this.customersService.list().subscribe(customers => {
-      this.customers_id = customers.map(c => c.id);
+      this.customers = customers.map(c => {
+        return { value: c.id, label: c.name };
+      });
       if (--pending === 0) callback();
     });
     // MOTORCYCLES
     this.motorcyclesService.list().subscribe(motorcycles => {
-      this.motorcycles_id = motorcycles.map(m => m.id);
+      this.motorcycles = motorcycles.map(m => {
+        return { value: m.id, label: m.license_plate };
+      });
       if (--pending === 0) callback();
     });
 
@@ -131,9 +135,7 @@ export class ManageComponent implements OnInit {
     // });
 
     // Si aún no tienes motos y menús, simulemos vacío:
-    this.motorcycles_id = [];
-    this.menus_id = [];
-    if (--pending === 0) callback();
+    this.menus = [];
     if (--pending === 0) callback();
   }
 
