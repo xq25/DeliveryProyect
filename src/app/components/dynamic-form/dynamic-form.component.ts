@@ -10,6 +10,11 @@ export class DynamicFormComponent implements OnInit {
 
   /** ESTE ES EL OBJETO COMPLETO QUE RECIBES DESDE MANAGE */
   @Input() config: any;
+  //El formConfig completo con:
+  // fields: string[]; // campos del formulario
+  // mode: number; // 1=view,2=create,3=update
+  // selectFields: any; // campos de selección con opciones dinámicas 
+  
 
   @Output() submit = new EventEmitter<any>();
 
@@ -57,6 +62,7 @@ export class DynamicFormComponent implements OnInit {
     }
 
     const cleanedData = this.form.getRawValue();
+    console.log('Formulario enviado con datos: ', cleanedData);
 
     if (this.config.mode === 2) {
       this.submit.emit({ action: 'create', data: cleanedData });
@@ -74,6 +80,7 @@ export class DynamicFormComponent implements OnInit {
   detectInputType(field: string): string {
     if (field.includes('email')) return 'email';
     if (field.includes('phone')) return 'number';
+    if (field === 'year') return 'number';
     return 'text';
   }
 

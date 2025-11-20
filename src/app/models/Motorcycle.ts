@@ -4,5 +4,4 @@ export class Motorcycle{
     brand: string;
     year: number;
     status: string;
-
 }

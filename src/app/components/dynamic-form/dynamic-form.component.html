@@ -22,7 +22,7 @@
 
           <!-- Input -->
           <input
-            *ngIf="!config.selectFields?.includes(field)"
+            *ngIf="!config.selectFields?.[field]"
             [type]="detectInputType(field)"
             class="form-input"
             [formControlName]="field"
@@ -31,7 +31,7 @@
 
           <!-- Select -->
           <select
-            *ngIf="config.selectFields?.includes(field)"
+            *ngIf="config.selectFields?.[field]"
             class="form-input"
             [formControlName]="field"
             [disabled]="config.mode === 1"
@@ -49,8 +49,16 @@
             <span *ngIf="form.get(field)?.errors?.['minlength']">
               Debe tener mínimo {{ form.get(field)?.errors?.['minlength'].requiredLength }} caracteres
             </span>
+            <span *ngIf="form.get(field)?.errors?.['maxlength']">
+              Debe tener máximo {{ form.get(field)?.errors?.['maxlength'].requiredLength }} caracteres
+            </span>
+            <span *ngIf="form.get(field)?.errors?.['min']">
+              El valor mínimo es {{ form.get(field)?.errors?.['min'].min }}
+            </span>
+            <span *ngIf="form.get(field)?.errors?.['max']">
+              El valor máximo es {{ form.get(field)?.errors?.['max'].max }}
+            </span>
           </div>
-
         </div>
 
       </ng-container>

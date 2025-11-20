@@ -38,6 +38,15 @@ export const AdminLayoutRoutes: Routes = [
                 loadChildren: () => import('src/app/pages/customers/customers.module').then(m => m.CustomersModule)
             }
         ]
+    },
+    {
+        path: '',
+        children: [
+            {
+                path: 'motorcycles',
+                loadChildren: () => import('src/app/pages/motorcycles/motorcycles.module').then(m => m.MotorcyclesModule)
+            }
+        ]
     }
 
 ];

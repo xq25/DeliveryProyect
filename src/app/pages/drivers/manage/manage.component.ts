@@ -106,7 +106,7 @@ export class ManageComponent implements OnInit {
       rules: this.rules,
       hiddenFields: this.hiddenFields,
       disableFields: this.disableFields,
-      model: this.driver || {}  // datos iniciales
+      model: this.driver || {}  // datos iniciales\
     };
   }
 
