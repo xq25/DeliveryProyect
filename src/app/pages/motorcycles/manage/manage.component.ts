@@ -41,7 +41,7 @@ export class ManageComponent implements OnInit {
   hiddenFields: string[] = [];
 
   selectFields: any = {
-    status: ['available', 'unavailable', 'maintenance']
+    status: [{ value: 'available', label: 'Available' }, { value: 'unavailable', label: 'Unavailable' }, { value: 'maintenance', label: 'Maintenance' }]
   };
 
   constructor(

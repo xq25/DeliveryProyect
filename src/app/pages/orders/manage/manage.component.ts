@@ -6,6 +6,7 @@ import Swal from 'sweetalert2';
 import { OrdersService } from 'src/app/services/orders.service';
 import { Order } from 'src/app/models/Order';
 import { CustomersService } from 'src/app/services/customers.service';
+import { MotorcyclesService } from 'src/app/services/motorcycles.service';
 // import { MotorcyclesService } from 'src/app/services/motorcycles.service';
 // import { MenusService } from 'src/app/services/menus.service';
 
@@ -49,7 +50,7 @@ export class ManageComponent implements OnInit {
     private service: OrdersService,
     private router: Router,
     private customersService: CustomersService,
-    // private motorcyclesService: MotorcyclesService,
+    private motorcyclesService: MotorcyclesService,
     // private menusService: MenusService,
   ) {}
 
@@ -117,12 +118,11 @@ export class ManageComponent implements OnInit {
       this.customers_id = customers.map(c => c.id);
       if (--pending === 0) callback();
     });
-
     // MOTORCYCLES
-    // this.motorcyclesService.list().subscribe(motos => {
-    //   this.motorcycles_id = motos.map(m => m.id);
-    //   if (--pending === 0) callback();
-    // });
+    this.motorcyclesService.list().subscribe(motorcycles => {
+      this.motorcycles_id = motorcycles.map(m => m.id);
+      if (--pending === 0) callback();
+    });
 
     // MENUS
     // this.menusService.list().subscribe(menus => {
