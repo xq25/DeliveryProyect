@@ -65,6 +65,14 @@ export const AdminLayoutRoutes: Routes = [
                 loadChildren: () => import('src/app/pages/restaurants/restaurants.module').then(m => m.RestaurantsModule)
             }
         ]
+    },
+    {
+        path: '',
+        children: [
+            {
+                path: 'menus',
+                loadChildren: () => import('src/app/pages/menus/menus.module').then(m => m.MenusModule)
+            }
+        ]
     }
-
 ];
