@@ -43,7 +43,7 @@ export class ManageComponent implements OnInit {
 
   rules: any = {};
   disableFields: string[] = [];
-  hiddenFields: string[] = ['id'];
+  hiddenFields: string[] = [];
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -62,11 +62,21 @@ export class ManageComponent implements OnInit {
     if (url.includes('view')) this.mode = 1;
     else if (url.includes('create')) this.mode = 2;
     else if (url.includes('update')) this.mode = 3;
+    
+    this.disableFields = ['id'];
+    if (this.mode === 2) {
+      this.hiddenFields = ['id'];
+    }
 
     this.setupRules();
 
     // Cargar IDs para selects
     this.getIds(() => {
+      if (this.motorcycles.length === 0 || this.customers.length === 0 || this.menus.length === 0) {
+        Swal.fire('Atención', 'Debe existir al menos una motocicleta, un cliente y un menú para crear una orden', 'warning');
+        this.router.navigate(['/orders/list']);
+        return;
+      }
       // Luego de tener los IDs ya podemos construir los selectFields
       this.selectFields = {
         motorcycle_id: this.motorcycles,

@@ -61,7 +61,9 @@ export class ManageComponent implements OnInit {
 
     // Ajustes iniciales
     this.disableFields = ['id'];
-    this.hiddenFields = ['id'];
+    if (this.mode === 2) {
+      this.hiddenFields = ['id'];
+    }
 
     this.setupRules();
 

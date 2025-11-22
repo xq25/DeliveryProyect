@@ -74,5 +74,14 @@ export const AdminLayoutRoutes: Routes = [
                 loadChildren: () => import('src/app/pages/menus/menus.module').then(m => m.MenusModule)
             }
         ]
+    },
+    {
+        path: '',
+        children: [
+            {
+                path: 'orders',
+                loadChildren: () => import('src/app/pages/orders/orders.module').then(m => m.OrdersModule)
+            }
+        ]
     }
 ];

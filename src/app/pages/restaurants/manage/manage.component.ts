@@ -55,7 +55,9 @@ export class ManageComponent implements OnInit {
     else if (url.includes('update')) this.mode = 3;
 
     this.disableFields = ['id'];
-    this.hiddenFields = ['id'];
+    if (this.mode === 2) {
+      this.hiddenFields = ['id'];
+    }
 
     this.setupRules();
 
@@ -91,8 +93,6 @@ export class ManageComponent implements OnInit {
       },
       error: (err) => console.error(err)
     });
-    
-    this.buildFormConfig();
   }
 
   /** Construcción final del configurador del DynamicForm */

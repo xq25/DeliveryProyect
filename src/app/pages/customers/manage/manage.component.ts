@@ -54,7 +54,11 @@ export class ManageComponent implements OnInit {
 
     // Configuración inicial de campos
     this.disableFields = ['id'];
-    this.hiddenFields = ['id'];
+    
+    // Ocultar status en modo create
+    if (this.mode === 2) {
+      this.hiddenFields = ['id'];
+    }
 
     // Reglas iniciales
     this.setupRules();
@@ -78,10 +82,7 @@ export class ManageComponent implements OnInit {
       phone: [Validators.required, Validators.minLength(7)],
     };
 
-    // Ocultar status en modo create
-    if (this.mode === 2) {
-      this.hiddenFields.push('status');
-    }
+    
   }
 
   /** Cargar información del customer */

@@ -18,8 +18,8 @@ export class ManageComponent implements OnInit {
 
   /** Modelos */
   menu: Menu | undefined;
-  restaurants: {} = {};
-  products: {} = {};
+  restaurants: any[] = [];
+  products: any[] = [];
 
   /** Campos del formulario */
   fields: string[] = [
@@ -58,18 +58,23 @@ export class ManageComponent implements OnInit {
 
     // Configuración inicial
     this.disableFields = ['id'];
-    this.hiddenFields = ['id'];
+    if (this.mode === 2) {
+      this.hiddenFields = ['id'];
+    }
 
     this.setupRules();
 
     this.getIds(() => {
-      // Luego de tener los IDs ya podemos construir los selectFields
+      if (this.restaurants.length === 0 || this.products.length === 0) {
+        Swal.fire('Atención', 'Debe existir al menos un restaurante y un producto para crear un menú', 'warning');
+        this.router.navigate(['/menus/list']);
+        return;
+      }
       this.selectFields = {
         availability: [{ value: true, label: 'Available' }, { value: false, label: 'Not Available' }],
         restaurant_id: this.restaurants,
         product_id: this.products,
       };
-
       // Cargar registro (si aplica)
       const id = this.activatedRoute.snapshot.params['id'];
 
@@ -104,7 +109,6 @@ export class ManageComponent implements OnInit {
         console.error('Error loading record', error);
       }
     });
-    this.buildFormConfig();
   }
 
   getIds(callback: Function) {

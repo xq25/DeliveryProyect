@@ -55,7 +55,10 @@ export class ManageComponent implements OnInit {
 
     // Configuración inicial de campos
     this.disableFields = ['id'];
-    this.hiddenFields = ['id'];
+    
+    if (this.mode === 2) {
+      this.hiddenFields = ['id'];
+    }
 
     this.setupRules();
 
@@ -79,11 +82,6 @@ export class ManageComponent implements OnInit {
       email: [Validators.required, Validators.email],
       status: [Validators.required]
     };
-
-    // Ocultar status en modo crear
-    if (this.mode === 2) {
-      this.hiddenFields.push('status');
-    }
   }
 
   loadDriver(id: number) {/* Cargar información para modo view/update */
