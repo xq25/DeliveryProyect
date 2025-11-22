@@ -2,7 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
-import { ProductsService } from 'src/app/services/products.service';
+import { RestaurantsService } from 'src/app/services/restaurants.service';
+import { Restaurant } from 'src/app/models/Restaurant';
+// IMPORTA TU SERVICIO REAL AQUÍ
+// import { XService } from 'src/app/services/x.service';
 
 @Component({
   selector: 'app-manage',
@@ -15,17 +18,18 @@ export class ManageComponent implements OnInit {
   mode: number;
 
   /** Modelo del registro (cargado desde backend si aplica) */
-  product: any;
+  restaurant: any
 
   /** Campos del formulario */
   fields: string[] = [
     'id',
     'name',
-    'description',
-    'price',
-    'category'
+    'address',
+    'phone',
+    'email'
   ];
 
+  /** Campos tipo select */
   selectFields: any = {};
 
   /** Configuración final para el DynamicForm */
@@ -40,11 +44,7 @@ export class ManageComponent implements OnInit {
   /** Campos ocultos */
   hiddenFields: string[] = [];
 
-  constructor(
-    private activatedRoute: ActivatedRoute,
-    private router: Router,
-    private service: ProductsService
-  ) {}
+  constructor(private activatedRoute: ActivatedRoute, private router: Router, private service: RestaurantsService){}
 
   ngOnInit(): void {
 
@@ -63,9 +63,9 @@ export class ManageComponent implements OnInit {
     const id = this.activatedRoute.snapshot.params['id'];
 
     if (id) {
-      this.loadProduct(id);
+      this.loadRestaurant(id);
     } else {
-      this.product = undefined;
+      this.restaurant = undefined;
       this.buildFormConfig();
     }
   }
@@ -74,24 +74,24 @@ export class ManageComponent implements OnInit {
   setupRules() {
     this.rules = {
       name: [Validators.required, Validators.minLength(3)],
-      description: [Validators.required],
-      price: [Validators.required, Validators.min(0)],
-      category: [Validators.required]
+      address: [Validators.required, Validators.minLength(5)],
+      phone: [Validators.required, Validators.minLength(7)],
+      email: [Validators.required, Validators.email]
     };
+
   }
 
-  /** Cargar información desde el servicio (modo view/update) */
-  loadProduct(id: number) {
-    
+  /** Cargar información desde el servicio */
+  loadRestaurant(id: number) {
+
     this.service.view(id).subscribe({
       next: (response) => {
-        this.product = response;
+        this.restaurant = response;
         this.buildFormConfig();
       },
       error: (err) => console.error(err)
     });
-
-
+    
     this.buildFormConfig();
   }
 
@@ -104,53 +104,51 @@ export class ManageComponent implements OnInit {
       hiddenFields: this.hiddenFields,
       disableFields: this.disableFields,
       selectFields: this.selectFields,
-      model: this.product || {}
+      model: this.restaurant || {}
     };
   }
 
-  /** Manejo del submit del DynamicForm */
+  /** Manejar el evento emitido por DynamicForm */
   handleFormSubmit(event: { action: 'back' | 'create' | 'update', data?: any }) {
 
     if (event.action === 'back') {
-      this.router.navigate(['/products/list']);
+      this.router.navigate(['../list']);
       return;
     }
 
     if (event.action === 'create') {
-      this.createProduct(event.data);
+      this.createRestaurant(event.data);
       return;
     }
 
     if (event.action === 'update') {
-      this.updateProduct(event.data);
+      this.updateRestaurant(event.data);
       return;
     }
   }
 
   /** Crear registro */
-  createProduct(formValue: any) {
-    
+  createRestaurant(formValue: any) {
     this.service.create(formValue).subscribe({
       next: () => {
         Swal.fire('Creado!', 'Registro creado correctamente', 'success');
-        this.router.navigate(['/products/list']);
+        this.router.navigate(['../list']);
       },
       error: () => Swal.fire('Error', 'No se pudo crear', 'error')
     });
-    
   }
 
   /** Actualizar registro */
-  updateProduct(formValue: any) {
+  updateRestaurant(formValue: any) {
+
     this.service.update(formValue).subscribe({
       next: () => {
         Swal.fire('Actualizado!', 'Cambios guardados', 'success');
-        this.router.navigate(['/products/list']);
+        this.router.navigate(['../list']);
       },
       error: () => Swal.fire('Error', 'No se pudo actualizar', 'error')
     });
     
-
   }
 
 }

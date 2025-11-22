@@ -1,0 +1,5 @@
+<app-dynamic-form 
+  *ngIf="formConfig"
+  [config]="formConfig"
+  (submit)="handleFormSubmit($event)">
+</app-dynamic-form>
