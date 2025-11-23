@@ -5,6 +5,7 @@ import { IconsComponent } from '../../pages/icons/icons.component';
 import { MapsComponent } from '../../pages/maps/maps.component';
 import { UserProfileComponent } from '../../pages/user-profile/user-profile.component';
 import { TablesComponent } from '../../pages/tables/tables.component';
+import { AuthenticationGuard } from 'src/app/guards/authentication.guard';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard',      component: DashboardComponent },
@@ -17,6 +18,7 @@ export const AdminLayoutRoutes: Routes = [
         children: [
             {
                 path: 'theaters',
+                canActivate: [AuthenticationGuard],
                 loadChildren: () => import('src/app/pages/theaters/theaters.module').then(m => m.TheatersModule)
             }
         ]
@@ -26,6 +28,7 @@ export const AdminLayoutRoutes: Routes = [
         children: [
             {
                 path: 'drivers',
+                canActivate: [AuthenticationGuard],
                 loadChildren: () => import('src/app/pages/drivers/drivers.module').then(m => m.DriversModule)
             }
         ]
@@ -35,6 +38,7 @@ export const AdminLayoutRoutes: Routes = [
         children: [
             {
                 path: 'customers',
+                canActivate: [AuthenticationGuard],
                 loadChildren: () => import('src/app/pages/customers/customers.module').then(m => m.CustomersModule)
             }
         ]
@@ -44,6 +48,7 @@ export const AdminLayoutRoutes: Routes = [
         children: [
             {
                 path: 'motorcycles',
+                canActivate: [AuthenticationGuard],
                 loadChildren: () => import('src/app/pages/motorcycles/motorcycles.module').then(m => m.MotorcyclesModule)
             }
         ]
@@ -53,6 +58,7 @@ export const AdminLayoutRoutes: Routes = [
         children: [
             {
                 path: 'products',
+                canActivate: [AuthenticationGuard],
                 loadChildren: () => import('src/app/pages/products/products.module').then(m => m.ProductsModule)
             }
         ]
@@ -62,6 +68,7 @@ export const AdminLayoutRoutes: Routes = [
         children: [
             {
                 path: 'restaurants',
+                canActivate: [AuthenticationGuard],
                 loadChildren: () => import('src/app/pages/restaurants/restaurants.module').then(m => m.RestaurantsModule)
             }
         ]
@@ -71,6 +78,7 @@ export const AdminLayoutRoutes: Routes = [
         children: [
             {
                 path: 'menus',
+                canActivate: [AuthenticationGuard],
                 loadChildren: () => import('src/app/pages/menus/menus.module').then(m => m.MenusModule)
             }
         ]
@@ -80,6 +88,7 @@ export const AdminLayoutRoutes: Routes = [
         children: [
             {
                 path: 'orders',
+                canActivate: [AuthenticationGuard],
                 loadChildren: () => import('src/app/pages/orders/orders.module').then(m => m.OrdersModule)
             }
         ]
@@ -89,6 +98,7 @@ export const AdminLayoutRoutes: Routes = [
         children: [
             {
                 path: 'addresses',
+                canActivate: [AuthenticationGuard],
                 loadChildren: () => import('src/app/pages/address/address.module').then(m => m.AddressModule)
             }
         ]
@@ -98,6 +108,7 @@ export const AdminLayoutRoutes: Routes = [
         children: [
             {
                 path: 'departaments',
+                canActivate: [AuthenticationGuard],
                 loadChildren: () => import('src/app/pages/departaments/departaments.module').then(m => m.DepartamentsModule)
             }
         ]
@@ -107,6 +118,7 @@ export const AdminLayoutRoutes: Routes = [
         children: [
             {
                 path: 'shifts',
+                canActivate: [AuthenticationGuard],
                 loadChildren: () => import('src/app/pages/shifts/shifts.module').then(m => m.ShiftsModule)
             }
         ]
@@ -116,6 +128,7 @@ export const AdminLayoutRoutes: Routes = [
         children: [
             {
                 path: 'issues',
+                canActivate: [AuthenticationGuard],
                 loadChildren: () => import('src/app/pages/issues/issues.module').then(m => m.IssuesModule)
             }
         ]
