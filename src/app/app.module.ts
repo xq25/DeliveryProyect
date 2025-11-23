@@ -14,6 +14,11 @@ import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 
+//OAuth
+import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
+import { provideAuth, getAuth } from '@angular/fire/auth';
+import { environment } from '../environments/environment';
+
 
 @NgModule({
   imports: [
@@ -23,7 +28,9 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
     ComponentsModule, // Aqui esta la iomportacion del modulo de componentes
     NgbModule,
     RouterModule,
-    AppRoutingModule
+    AppRoutingModule,
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideAuth(() => getAuth())
   ],
   declarations: [
     AppComponent,

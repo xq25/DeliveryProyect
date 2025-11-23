@@ -35,7 +35,8 @@ export class SecurityService {
       email: dataSesion["email"],
       password: "",
       //role:dataSesion["role"],
-      token: dataSesion["token"]
+      token: dataSesion["token"],
+      photo: dataSesion['photo']
     };
     localStorage.setItem('sesion', JSON.stringify(data)); // Guardamos la sesion en el local storage
     this.setUser(data); // Actualizamos la informacion del theUser con los datos del usuario logueado(theUser es la variable global reactiva)

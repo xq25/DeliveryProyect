@@ -5,6 +5,8 @@ import { User } from 'src/app/models/User';
 import { SecurityService } from 'src/app/services/security.service';
 import Swal from 'sweetalert2';
 
+import { AuthService } from 'src/app/services/auth.service';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -12,7 +14,7 @@ import Swal from 'sweetalert2';
 })
 export class LoginComponent implements OnInit, OnDestroy {  //onDestroy para limpiar recursos, llama un metodo justo despues de cerrar o salir de la pagina
   user: User
-  constructor(private securityService: SecurityService,private router:Router) { // Inyeccion de dependencias
+  constructor(private securityService: SecurityService,private router:Router, private authService: AuthService) { // Inyeccion de dependencias
     this.user = { email: "", password: "" } // Inicializamos las cajas de texto en blanco. (Similar al initialize values de Formik)
   }
   login() {
@@ -27,6 +29,35 @@ export class LoginComponent implements OnInit, OnDestroy {  //onDestroy para lim
         Swal.fire("Autenticación Inválida", "Usuario o contraseña inválido", "error")
       }
     })
+  }
+  async loginWithGoogle() {
+    try {
+      const result = await this.authService.loginWithGoogle();
+      console.log(result);
+      this.securityService.saveSession(result.user)
+      this.router.navigate(["dashboard"]);
+    } catch (error: any) {
+      Swal.fire("Error", error.message || "Error al iniciar sesión con Google", "error");
+    }
+  }
+  async loginWithMicrosoft(){
+    try {
+      const result = await this.authService.loginWithMicrosoft();
+      console.log(result);
+      this.securityService.saveSession(result.user)
+      this.router.navigate(["dashboard"]);
+    } catch (error: any) {
+      Swal.fire("Error", error.message || "Error al iniciar sesión con Google", "error");
+    }
+  }
+  async loginWithGithub() {
+    try {
+      const result = await this.authService.loginWithGithub();
+      this.securityService.saveSession(result)
+      this.router.navigate(["dashboard"]);
+    } catch (error: any) {
+      Swal.fire("Error", error.message || "Error al iniciar sesión con GitHub", "error");
+    }
   }
 
   ngOnInit() {
