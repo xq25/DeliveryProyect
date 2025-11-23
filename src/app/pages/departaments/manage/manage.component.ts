@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Driver } from 'src/app/models/Driver';
-import { DriversService } from 'src/app/services/drivers.service';
 import { Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Departament } from 'src/app/models/Departament';
+import { DepartamentsService } from 'src/app/services/departaments.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -11,19 +11,14 @@ import Swal from 'sweetalert2';
   styleUrls: ['./manage.component.scss']
 })
 export class ManageComponent implements OnInit {
-
   mode: number; // 1 = view, 2 = create, 3 = update
 
-  driver: Driver | undefined;
+  departament: Departament | undefined;
 
   /** Campos del formulario */
   fields: string[] = [
     'id',
-    'name',
-    'license_number',
-    'phone',
-    'email',
-    'status'
+    'name'
   ];
 
   /** Configuración del formulario dinámico */
@@ -37,11 +32,9 @@ export class ManageComponent implements OnInit {
 
   /** Campos ocultos */
   hiddenFields: string[] = [];
-
-  constructor(private activatedRoute: ActivatedRoute,private service: DriversService,private router: Router) {}
+  constructor(private activatedRoute: ActivatedRoute, private service: DepartamentsService, private router: Router) { }
 
   ngOnInit(): void {
-
     // Detectar modo según la URL
     const url = this.activatedRoute.snapshot.url.join('/');
 
@@ -62,9 +55,9 @@ export class ManageComponent implements OnInit {
     const id = this.activatedRoute.snapshot.params['id'];
 
     if (id) {
-      this.loadDriver(id);
+      this.loadDepartament(id);
     } else {
-      this.driver = undefined;
+      this.departament = undefined;
       this.buildFormConfig(); // construir configuración vacía
     }
   }
@@ -73,17 +66,13 @@ export class ManageComponent implements OnInit {
   setupRules() {
     this.rules = {
       name: [Validators.required, Validators.minLength(3)],
-      license_number: [Validators.required],
-      phone: [Validators.required, Validators.minLength(7)],
-      email: [Validators.required, Validators.email],
-      status: [Validators.required]
     };
   }
 
-  loadDriver(id: number) {/* Cargar información para modo view/update */
+  loadDepartament(id: number) {/* Cargar información para modo view/update */
     this.service.view(id).subscribe({
       next: (response) => {
-        this.driver = response;
+        this.departament = response;
         this.buildFormConfig();
       },
       error: (error) => {
@@ -100,7 +89,7 @@ export class ManageComponent implements OnInit {
       rules: this.rules,
       hiddenFields: this.hiddenFields,
       disableFields: this.disableFields,
-      model: this.driver || {}  // datos iniciales\
+      model: this.departament || {}  // datos iniciales\
     };
   }
 
@@ -109,27 +98,27 @@ export class ManageComponent implements OnInit {
     if (!event) return;
 
     if (event.action === 'back') {
-      this.router.navigate(['/drivers/list']);
+      this.router.navigate(['/departaments/list']);
       return;
     }
 
     if (event.action === 'create') {
-      this.createDriver(event.data);
+      this.createDepartament(event.data);
       return;
     }
 
     if (event.action === 'update') {
-      this.updateDriver(event.data);
+      this.updateDepartament(event.data);
       return;
     }
   }
 
   /** Crear */
-  createDriver(formValue: any) {
+  createDepartament(formValue: any) {
     this.service.create(formValue).subscribe({
       next: () => {
         Swal.fire('Creado!', 'Registro creado correctamente', 'success');
-        this.router.navigate(['/drivers/list']);
+        this.router.navigate(['/departaments/list']);
       },
       error: (err) => {
         console.error(err);
@@ -139,11 +128,11 @@ export class ManageComponent implements OnInit {
   }
 
   /** Actualizar */
-  updateDriver(formValue: any) {
+  updateDepartament(formValue: any) {
     this.service.update(formValue).subscribe({
       next: () => {
         Swal.fire('Actualizado!', 'Registro actualizado correctamente', 'success');
-        this.router.navigate(['/drivers/list']);
+        this.router.navigate(['/departaments/list']);
       },
       error: (err) => {
         console.error(err);

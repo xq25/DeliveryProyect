@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Restaurant } from 'src/app/models/Restaurant';
-import { RestaurantsService } from 'src/app/services/restaurants.service';
+import { Shift } from 'src/app/models/Shift';
+import { ShiftsService } from 'src/app/services/shifts.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -10,30 +10,28 @@ import Swal from 'sweetalert2';
   styleUrls: ['./list.component.scss']
 })
 export class ListComponent implements OnInit {
-  restaurants: Restaurant[] = [];
+  shifts: Shift[] = [];
   headers: string[] = [];
   actionButtons = [
     { label: 'Ver', class: 'btn btn-info btn-sm', action: 'view' },
     { label: 'Editar', class: 'btn btn-warning btn-sm', action: 'edit' },
     { label: 'Eliminar', class: 'btn btn-danger btn-sm', action: 'delete' }
   ];
-
-
-  constructor(private service: RestaurantsService, private router: Router) { }
+  constructor(private service : ShiftsService, private router: Router) { }
 
   ngOnInit(): void {
     this.service.list().subscribe(data => {
-      this.restaurants = data;
+      this.shifts = data;
       if (data.length > 0) {
         this.headers = Object.keys(data[0]);
       }
     });
   }
   view(id: number){
-    this.router.navigate([`/restaurants/view/${id}`])
+    this.router.navigate([`/shifts/view/${id}`])
   }
   delete(id: number) {
-      console.log("Delete restaurant with id:", id);
+      console.log("Delete shift with id:", id);
       Swal.fire({
         title: 'Eliminar',
         text: "Está seguro que quiere eliminar el registro?",
@@ -58,11 +56,11 @@ export class ListComponent implements OnInit {
       })
   }
   create(){
-    this.router.navigate([`/restaurants/create`])
+    this.router.navigate([`/shifts/create`])
   }
   
   update(id: number){
-    this.router.navigate([`/restaurants/update/${id}`])
+    this.router.navigate([`/shifts/update/${id}`])
   }
 
   handleTableAction(event: any) {
@@ -73,5 +71,5 @@ export class ListComponent implements OnInit {
       this.delete(event.row.id);
     }
   }
-  
+
 }

@@ -1,0 +1,9 @@
+<div>
+    <button type="button" class="btn btn-success " (click)="create()">Crear</button>
+    <app-table 
+        [data]="departaments"
+        [headers]="headers"
+        [actionButtons]="actionButtons"
+        (actionClicked)="handleTableAction($event)">
+    </app-table>
+</div>

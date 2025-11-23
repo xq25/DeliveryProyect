@@ -83,5 +83,32 @@ export const AdminLayoutRoutes: Routes = [
                 loadChildren: () => import('src/app/pages/orders/orders.module').then(m => m.OrdersModule)
             }
         ]
+    },
+    {
+        path: '',
+        children: [
+            {
+                path: 'addresses',
+                loadChildren: () => import('src/app/pages/address/address.module').then(m => m.AddressModule)
+            }
+        ]
+    },
+    {
+        path: '',
+        children: [
+            {
+                path: 'departaments',
+                loadChildren: () => import('src/app/pages/departaments/departaments.module').then(m => m.DepartamentsModule)
+            }
+        ]
+    },
+    {
+        path: '',
+        children: [
+            {
+                path: 'shifts',
+                loadChildren: () => import('src/app/pages/shifts/shifts.module').then(m => m.ShiftsModule)
+            }
+        ]
     }
 ];
