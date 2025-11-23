@@ -110,5 +110,14 @@ export const AdminLayoutRoutes: Routes = [
                 loadChildren: () => import('src/app/pages/shifts/shifts.module').then(m => m.ShiftsModule)
             }
         ]
+    },
+    {
+        path: '',
+        children: [
+            {
+                path: 'issues',
+                loadChildren: () => import('src/app/pages/issues/issues.module').then(m => m.IssuesModule)
+            }
+        ]
     }
 ];
