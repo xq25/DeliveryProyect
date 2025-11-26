@@ -41,7 +41,7 @@ export class DynamicFormComponent implements OnInit {
 
       const validations = this.config.rules[field] || [];
 
-      const initialValue = this.config.model ? this.config.model[field] : ''; // Si pasamos un modelo, usar sus valores para rellenar el formulario
+      const initialValue = this.config.model && field !== 'file'? this.config.model[field] : ''; // Si pasamos un modelo, usar sus valores para rellenar el formulario
 
       const control = this.fb.control( // creamos un control por cada campo
         initialValue,
@@ -81,15 +81,15 @@ export class DynamicFormComponent implements OnInit {
 
   onFileSelected(event: any, field: string) {
     const file = event.target.files[0];
-    if (file) {
+    if (!file) return;
 
-      // Crear URL temporal para previsualización
-      const url = URL.createObjectURL(file);
-      this.previewUrls[field] = this.sanitizer.bypassSecurityTrustUrl(url);
+    // Crear URL para previsualización
+    const url = URL.createObjectURL(file);
+    this.previewUrls[field] = this.sanitizer.bypassSecurityTrustUrl(url);
 
-      // Emitir evento al manage
-      this.submit.emit({ action: 'file', field, file });
-    }
+    // Guardar el archivo DENTRO del formulario
+    console.log(file)
+    this.form.get(field)?.setValue(file);
   }
 
   //Utilities

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { switchMap } from 'rxjs';
 import { Photo } from 'src/app/models/Photo';
 import { IssuesService } from 'src/app/services/issues.service';
 import { PhotosService } from 'src/app/services/photos.service';
@@ -89,7 +90,7 @@ export class ManageComponent implements OnInit {
       caption: [Validators.required, Validators.maxLength(30), Validators.minLength(3)],
       taken_at: [Validators.required],
       issue_id: [Validators.required],
-      
+      file: [Validators.required]
     };
   }
 
@@ -138,12 +139,6 @@ export class ManageComponent implements OnInit {
   /** Manejo del submit */
   handleFormSubmit(event: any) {
 
-    // ⬅ Evento cuando el usuario selecciona un archivo
-    if (event.action === 'file') {
-      this.uploadFile(event.file);
-      return;
-    }
-
     if (event.action === 'back') {
       this.router.navigate(['/Photos/list']);
       return;
@@ -162,43 +157,68 @@ export class ManageComponent implements OnInit {
 
   /** Crear registro */
   createPhoto(formValue: any) {
+    const file = formValue.file
     delete formValue.file; // 👈 evitar enviar file al backend  
-    this.service.create(formValue).subscribe({
+    formValue.taken_at = new Date().toISOString();
+    console.log(formValue)
+    
+    this.service.uploadFile(file).pipe(
+      switchMap((resp: any) => {
+        formValue.image_url = resp.path;  // ejemplo: "/uploads/img.jpg"
+        console.log(formValue)
+        return this.service.create(formValue);
+      })
+    )
+    .subscribe({
       next: () => {
-        Swal.fire('Creado!', 'Registro creado correctamente', 'success');
-        this.router.navigate(['/Photos/list']); // <-- cambiar
+        Swal.fire('Actualizado!', 'Cambios guardados', 'success');
+        this.router.navigate(['/Photos/list']);
       },
-      error: () => Swal.fire('Error', 'No se pudo crear', 'error')
+      error: () => Swal.fire('Error', 'No se pudo actualizar', 'error')
     });
   }
 
   /** Actualizar registro */
   updatePhoto(formValue: any) {
-    delete formValue.file; // 👈 evitar enviar file al backend
-    this.service.update(formValue).subscribe({
+    const file = formValue.file;
+    delete formValue.file; // ❗ evitar enviar file al backend
+    formValue.taken_at = new Date().toISOString();
+
+    if (!file) {
+      // No hay archivo nuevo → solo actualizar
+      this.service.update(formValue).subscribe({
+        next: () => {
+          Swal.fire('Actualizado!', 'Cambios guardados', 'success');
+          this.router.navigate(['/Photos/list']);
+        },
+        error: () => Swal.fire('Error', 'No se pudo actualizar', 'error')
+      });
+      return;
+    }
+
+    this.service.uploadFile(file).pipe(
+      switchMap((resp: any) => {
+        formValue.image_url = resp.path;  // ejemplo: "/uploads/img.jpg"
+        return this.service.update(formValue);
+      })
+    )
+    .subscribe({
       next: () => {
         Swal.fire('Actualizado!', 'Cambios guardados', 'success');
-        this.router.navigate(['/Photos/list']); // <-- cambiar
+        this.router.navigate(['/Photos/list']);
       },
       error: () => Swal.fire('Error', 'No se pudo actualizar', 'error')
     });
   }
-  uploadFile(file: File) {
-    this.formConfig.model['image_url'] = 'dunand';
 
-    // Volver a reconstruir el form para reflejar el valor
-    this.buildFormConfig();
-
-    // this.service.uploadFile(file).subscribe({
-    //   next: (resp: any) => {
-    //     const ruta = resp.path;  // ejemplo: "/uploads/imagen_x.jpg"
-
-    //     // Guardar automáticamente la ruta en el formulario dinámico
-        
-    //     Swal.fire('Archivo cargado', 'La imagen se subió correctamente', 'success');
-    //   },
-    //   error: () => Swal.fire('Error', 'No se pudo subir el archivo', 'error')
-    // });
+  uploadFile(file: File){
+    this.service.uploadFile(file).subscribe({
+      next: (resp: any) => {
+        const ruta = resp.path;  // ejemplo: "/uploads/imagen_x.jpg"
+        return ruta
+      },
+      error: () => Swal.fire('Error', 'No se pudo subir el archivo', 'error')
+    });
   }
 
 }

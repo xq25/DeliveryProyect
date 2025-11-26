@@ -28,22 +28,31 @@
             [formControlName]="field"
             [disabled]="config.mode === 1"
           />
-          <!-- Campo de archivo -->
-          <input
-            *ngIf="config.fileFields?.includes(field)"
-            type="file"
-            class="form-input"
-            (change)="onFileSelected($event, field)"
-            [disabled]="config.mode === 1"
-          />
-          <!-- Vista previa de imagenes -->
-          <div *ngIf="previewUrls[field]" class="preview-box">
-            <img [src]="previewUrls[field]" alt="preview" class="preview-image" />
-          </div>
+          <div *ngIf="config.fileFields?.includes(field)">
+  
+      <!-- Input file (siempre visible excepto en modo view) -->
+            <input
+              type="file"
+              class="form-input"
+              (change)="onFileSelected($event, field)"
+              [disabled]="config.mode === 1"  
+            />
 
-          <!-- Si el modelo trae una ruta (modo update o view), mostrarla -->
-          <div *ngIf="!previewUrls[field] && form.get(field)?.value && config.fileFields?.includes(field)" class="preview-box">
-            <img [src]="form.get(field)?.value" alt="preview" class="preview-image" />
+            <!-- Vista previa temporal (cuando se selecciona un archivo nuevo) -->
+            <div *ngIf="previewUrls[field]" class="preview-box">
+              <img [src]="previewUrls[field]" class="preview-image" />
+            </div>
+
+            <!-- Vista previa desde el modelo (solo si NO hay un archivo seleccionado) -->
+            <div 
+              *ngIf="!previewUrls[field] 
+                    && config.fileFields?.includes(field) 
+                    && form.get('image_url')?.value" 
+              class="preview-box"
+            >
+              <img [src]="form.get('image_url')?.value" class="preview-image" />
+            </div>
+
           </div>
 
           <!-- Select -->
