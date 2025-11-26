@@ -36,4 +36,11 @@ export class PhotosService {
   delete(id: number): Observable<Photo> {
     return this.http.delete<Photo>(`${environment.url_backend}/Photos/${id}`);
   }
+
+  uploadFile(file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    return this.http.post(`${environment.url_backend}/photos/upload`, formData);
+  }
 }

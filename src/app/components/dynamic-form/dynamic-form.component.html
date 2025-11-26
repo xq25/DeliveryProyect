@@ -22,12 +22,29 @@
 
           <!-- Input -->
           <input
-            *ngIf="!config.selectFields?.[field]"
+            *ngIf="!config.selectFields?.[field] && !config.fileFields?.includes(field) && !previewUrls[field]"
             [type]="detectInputType(field)"
             class="form-input"
             [formControlName]="field"
             [disabled]="config.mode === 1"
           />
+          <!-- Campo de archivo -->
+          <input
+            *ngIf="config.fileFields?.includes(field)"
+            type="file"
+            class="form-input"
+            (change)="onFileSelected($event, field)"
+            [disabled]="config.mode === 1"
+          />
+          <!-- Vista previa de imagenes -->
+          <div *ngIf="previewUrls[field]" class="preview-box">
+            <img [src]="previewUrls[field]" alt="preview" class="preview-image" />
+          </div>
+
+          <!-- Si el modelo trae una ruta (modo update o view), mostrarla -->
+          <div *ngIf="!previewUrls[field] && form.get(field)?.value && config.fileFields?.includes(field)" class="preview-box">
+            <img [src]="form.get(field)?.value" alt="preview" class="preview-image" />
+          </div>
 
           <!-- Select -->
           <select

@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-dynamic-form',
@@ -19,8 +20,10 @@ export class DynamicFormComponent implements OnInit {
   @Output() submit = new EventEmitter<any>();
 
   form: FormGroup = new FormGroup({});
+  previewUrls: any = {}; // vistas previas por campo
 
-  constructor(private fb: FormBuilder) {}
+
+  constructor(private fb: FormBuilder, private sanitizer: DomSanitizer) {}
 
   ngOnInit() {
     if (!this.config) return;
@@ -60,7 +63,6 @@ export class DynamicFormComponent implements OnInit {
       console.log('Formulario inválido: ', this.form.errors);
       return;
     }
-
     const cleanedData = this.form.getRawValue();
     console.log('Formulario enviado con datos: ', cleanedData);
 
@@ -76,6 +78,20 @@ export class DynamicFormComponent implements OnInit {
       this.submit.emit({ action: 'back' });
     }
   }
+
+  onFileSelected(event: any, field: string) {
+    const file = event.target.files[0];
+    if (file) {
+
+      // Crear URL temporal para previsualización
+      const url = URL.createObjectURL(file);
+      this.previewUrls[field] = this.sanitizer.bypassSecurityTrustUrl(url);
+
+      // Emitir evento al manage
+      this.submit.emit({ action: 'file', field, file });
+    }
+  }
+
   //Utilities
   detectInputType(field: string): string {
     if (field.includes('email')) return 'email';
