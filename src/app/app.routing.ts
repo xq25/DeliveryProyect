@@ -34,7 +34,7 @@ const routes: Routes =[
     redirectTo: 'dashboard'
   }
 ];
-
+//punto de partida de las rutas
 @NgModule({
   imports: [
     CommonModule,
