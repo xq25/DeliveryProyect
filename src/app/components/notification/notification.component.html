@@ -1,0 +1,27 @@
+<div class="notification-wrapper">
+
+  <!-- Icono del header -->
+  <div class="notif-icon" (click)="togglePanel()">
+    🔔
+    <span class="notif-count" *ngIf="notifications.length > 0">
+      {{ notifications.length }}
+    </span>
+  </div>
+
+  <!-- Panel desplegable -->
+  <div class="notif-panel" *ngIf="isOpen">
+    <h4>Notificaciones</h4>
+
+    <button class="clear-btn" (click)="clearNotifications()">Limpiar</button>
+
+    <div *ngIf="notifications.length === 0" class="empty">
+      No hay notificaciones
+    </div>
+
+    <div *ngFor="let n of notifications" class="notif-item" [class]="n.type">
+      <p>{{ n.message }}</p>
+      <span class="time">{{ n.timestamp | date:'shortTime' }}</span>
+    </div>
+  </div>
+
+</div>

@@ -108,17 +108,15 @@ export class ManageComponent implements OnInit {
     });
   }
   getIds(callback: Function) {
-    // let pending = 1; // cuando llegue a 0 → callback()
+    let pending = 1; // cuando llegue a 0 → callback()
 
-    // // issues
-    // this.issueService.list().subscribe(issues => {
-    //   this.issues = issues.map(i => {
-    //     return { value: i.id, label: i.id };
-    //   });
-    //   if (--pending === 0) callback();
-    // });
-    this.issues = [{label: 1, value: 1}]
-    callback();
+    // issues
+    this.issueService.list().subscribe(issues => {
+      this.issues = issues.map(i => {
+        return { value: i.id, label: i.id };
+      });
+      if (--pending === 0) callback();
+    });
 
   }
 

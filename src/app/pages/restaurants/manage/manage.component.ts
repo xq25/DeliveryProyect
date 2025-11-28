@@ -112,7 +112,7 @@ export class ManageComponent implements OnInit {
   handleFormSubmit(event: { action: 'back' | 'create' | 'update', data?: any }) {
 
     if (event.action === 'back') {
-      this.router.navigate(['../list']);
+      this.router.navigate(['/restaurants/list']);
       return;
     }
 
@@ -132,7 +132,7 @@ export class ManageComponent implements OnInit {
     this.service.create(formValue).subscribe({
       next: () => {
         Swal.fire('Creado!', 'Registro creado correctamente', 'success');
-        this.router.navigate(['../list']);
+        this.router.navigate(['/restaurants/list']);
       },
       error: () => Swal.fire('Error', 'No se pudo crear', 'error')
     });
@@ -144,7 +144,7 @@ export class ManageComponent implements OnInit {
     this.service.update(formValue).subscribe({
       next: () => {
         Swal.fire('Actualizado!', 'Cambios guardados', 'success');
-        this.router.navigate(['../list']);
+        this.router.navigate(['/restaurants/list']);
       },
       error: () => Swal.fire('Error', 'No se pudo actualizar', 'error')
     });

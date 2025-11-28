@@ -61,6 +61,15 @@ export class ManageComponent implements OnInit {
     }
 
     this.setupRules();
+    this.selectFields = {
+      category: [
+        { value: 'food', label: 'Comida' },{ value: 'hot_drinks', label: 'Bebidas calientes' },{ value: 'cold_drinks', label: 'Bebidas frías' },{ value: 'desserts', label: 'Repostería / Postres' },
+        { value: 'fast_food', label: 'Comida rápida' },{ value: 'grill', label: 'Parrilla' },{ value: 'salads', label: 'Ensaladas' },{ value: 'soups', label: 'Sopas' },
+        { value: 'pastas', label: 'Pastas' },{ value: 'seafood', label: 'Mariscos' },{ value: 'vegetarian', label: 'Vegetariano' },{ value: 'vegan', label: 'Vegano' },
+        { value: 'breakfast', label: 'Desayunos' },{ value: 'specials', label: 'Especiales del día' },{ value: 'bakery', label: 'Panadería' },{ value: 'cocktails', label: 'Cocteles' },
+        { value: 'alcoholic_drinks', label: 'Bebidas alcohólicas' },{ value: 'snacks', label: 'Snacks' },{ value: 'sauces', label: 'Salsas / Adiciones' },{ value: 'kids_menu', label: 'Menú infantil' }
+      ]
+    };
 
     // Si existe id → cargar
     const id = this.activatedRoute.snapshot.params['id'];

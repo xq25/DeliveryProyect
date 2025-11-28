@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  url_backend: 'https://d199ef1c-6506-45bc-8744-4cb23721fac3.mock.pstmn.io',
+  url_backend: 'http://127.0.0.1:5000',
   firebase : {
     apiKey: "AIzaSyBtHeRhUXsgaeP0IzRba0N2M45l5XOw3nI",
     authDomain: "securityproyect-fd487.firebaseapp.com",
@@ -12,7 +12,8 @@ export const environment = {
     storageBucket: "securityproyect-fd487.firebasestorage.app",
     messagingSenderId: "799759297239",
     appId: "1:799759297239:web:57ced6fa0d138b308ede92"
-  }
+  },
+  url_postman: 'https://d199ef1c-6506-45bc-8744-4cb23721fac3.mock.pstmn.io'
 };
 
 /*

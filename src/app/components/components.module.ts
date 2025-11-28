@@ -9,6 +9,7 @@ import { TableComponent } from './table/table.component';
 
 import { ReactiveFormsModule } from '@angular/forms';
 import { DynamicFormComponent } from './dynamic-form/dynamic-form.component';
+import { NotificationComponent } from './notification/notification.component';
 
 @NgModule({
   imports: [
@@ -23,6 +24,7 @@ import { DynamicFormComponent } from './dynamic-form/dynamic-form.component';
     SidebarComponent,
     TableComponent,
     DynamicFormComponent,
+    NotificationComponent,
   ],
   exports: [
     FooterComponent,

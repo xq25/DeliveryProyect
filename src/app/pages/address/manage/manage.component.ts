@@ -48,7 +48,6 @@ export class ManageComponent implements OnInit {
   constructor(private activatedRoute: ActivatedRoute,private router: Router,private service: AddressesService, private orderService: OrdersService) {}
 
   ngOnInit(): void {
-
     // Detectar modo por URL
     const url = this.activatedRoute.snapshot.url.join('/');
     if (url.includes('view')) this.mode = 1;
@@ -63,7 +62,7 @@ export class ManageComponent implements OnInit {
     this.getIds(() => {
       if (this.orders.length == 0) {
         Swal.fire('Atención', 'Debe crear una orden antes de gestionar direcciones', 'warning');
-        this.router.navigate(['/orders/create']);
+        this.router.navigate(['/orders/list']);
         return;
       }
       this.selectFields['order_id'] = this.orders;
@@ -106,15 +105,35 @@ export class ManageComponent implements OnInit {
     });
   }
   getIds(callback: Function) {
-    let pending = 1; // cuando llegue a 0 → callback()
+    let pending = 2; // Porque ahora hay dos llamadas async
+    let exclusions:number[] = [];
+    let ordersId: number[] = [];
+
+    this.service.list().subscribe(addresses => {
+      exclusions = addresses.map(a => {
+        return a.order_id;
+        
+      })
+      if (--pending === 0) finish();
+    })
 
     // ORDERS
     this.orderService.list().subscribe(orders => {
-      this.orders = orders.map(c => {
-        return { value: c.id, label: c.id };
+      ordersId = orders.map(c => {
+        return c.id;
       });
-      if (--pending === 0) callback();
+      if (--pending === 0) finish();
+      
     });
+    // 3️⃣ Función final: filtrar y asignar
+    const finish = () => {
+      this.orders = ordersId
+        .filter(id => !exclusions.includes(id))   // <-- aquí se hace la validación final
+        .map(id => ({ value: id, label: id }));
+
+      callback();
+    };
+    
 
   }
 

@@ -22,10 +22,15 @@ export class ListComponent implements OnInit {
   ];
 
   ngOnInit(): void {
+    const excluded = ['menu', 'motorcycle', 'customer'];
     this.service.list().subscribe(data => {
       this.orders = data;
       if (data.length > 0) {
-        this.headers = Object.keys(data[0]);
+        this.headers = Object.keys(data[0]).filter(key => !excluded.includes(key)).sort((a, b) => {
+          const aIsId = a.toLowerCase().includes('id') ? 0 : 1;
+          const bIsId = b.toLowerCase().includes('id') ? 0 : 1;
+          return aIsId - bIsId;
+        });
       }
     });
   }

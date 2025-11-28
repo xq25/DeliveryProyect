@@ -55,7 +55,8 @@ export class ManageComponent implements OnInit {
 
     // Configuración inicial
     this.disableFields = ['id'];
-    if (this.mode === 2) this.hiddenFields = ['id'];
+    this.hiddenFields = ['date_reported']
+    if (this.mode === 2) this.hiddenFields.push('id');
 
     this.setupRules();
     this.getIds(() => {
@@ -65,8 +66,8 @@ export class ManageComponent implements OnInit {
         return;
       }
       this.selectFields = {
-        status: [{ value: 'available', label: 'Available' }, { value: 'unavailable', label: 'Unavailable' }, { value: 'maintenance', label: 'Maintenance' }],
-        issue_type: [{ value: 'mechanical', label: 'Mechanical' }, { value: 'electrical', label: 'Electrical' }, { value: 'inspection', label: 'Inspection' }, { value: 'accident', label: 'Accident' }, { value: 'other', label: 'Other' }],
+        status: [{ value: 'available', label: 'Available' }, {value: 'in_progress', Label: 'In Progress'},{ value: 'unavailable', label: 'Unavailable' }, { value: 'maintenance', label: 'Maintenance' }],
+        issue_type: [{ value: 'maintenance', Label: 'Maintenance'},{ value: 'mechanical', label: 'Mechanical' }, { value: 'electrical', label: 'Electrical' }, { value: 'inspection', label: 'Inspection' }, { value: 'accident', label: 'Accident' }, { value: 'other', label: 'Other' }],
         motorcycle_id: this.motorcycles
       }
       // Cargar registro si aplica
@@ -86,7 +87,6 @@ export class ManageComponent implements OnInit {
     this.rules = {
       description: [Validators.required, Validators.minLength(3), Validators.maxLength(100)],
       issue_type: [Validators.required],
-      date_reported: [Validators.required],
       status: [Validators.required],
       additional_info: [Validators.maxLength(40)],
       motorcycle_id: [Validators.required]
@@ -153,6 +153,7 @@ export class ManageComponent implements OnInit {
 
   /** Crear registro */
   createIssue(formValue: any) {
+    formValue.date_reported = new Date().toISOString();
     this.service.create(formValue).subscribe({
       next: () => {
         Swal.fire('Creado!', 'Registro creado correctamente', 'success');
@@ -164,6 +165,7 @@ export class ManageComponent implements OnInit {
 
   /** Actualizar registro */
   updateIssue(formValue: any) {
+    formValue.date_reported = new Date().toISOString();
     this.service.update(formValue).subscribe({
       next: () => {
         Swal.fire('Actualizado!', 'Cambios guardados', 'success');
