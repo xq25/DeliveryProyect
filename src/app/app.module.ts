@@ -25,7 +25,7 @@ import { environment } from '../environments/environment';
     BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,
-    ComponentsModule, // Aqui esta la iomportacion del modulo de componentes
+    ComponentsModule, // Aqui esta la iomportacion del modulo de componentess
     NgbModule,
     RouterModule,
     AppRoutingModule,
