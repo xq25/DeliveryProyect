@@ -71,6 +71,10 @@ export class ListComponent implements OnInit {
   update(id: number){
     this.router.navigate([`/orders/update/${id}`])
   }
+  trackingDelivery(){
+    this.router.navigate(['../']) //Direccion de la pagina de visualizacion del mapa.
+  }
+
 
   handleTableAction(event: any) {
     if (event.action === 'edit') {
@@ -84,6 +88,7 @@ export class ListComponent implements OnInit {
     }
     else if (event.action === 'tracking'){
       // Agregar la pagina de mapa con la moto en movimiento
+      this.trackingDelivery()
     }
   }
 
