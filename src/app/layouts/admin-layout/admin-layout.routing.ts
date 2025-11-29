@@ -107,16 +107,6 @@ export const AdminLayoutRoutes: Routes = [
         path: '',
         children: [
             {
-                path: 'departaments',
-                canActivate: [AuthenticationGuard],
-                loadChildren: () => import('src/app/pages/departaments/departaments.module').then(m => m.DepartamentsModule)
-            }
-        ]
-    },
-    {
-        path: '',
-        children: [
-            {
                 path: 'shifts',
                 canActivate: [AuthenticationGuard],
                 loadChildren: () => import('src/app/pages/shifts/shifts.module').then(m => m.ShiftsModule)

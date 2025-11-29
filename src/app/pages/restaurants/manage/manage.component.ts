@@ -59,7 +59,7 @@ export class ManageComponent implements OnInit {
       this.hiddenFields = ['id'];
     }
     if(this.mode === 1){
-      this.hiddenFields = ['id','name','address','phone','email'];
+      this.disableFields = ['id','name','address','phone','email'];
     }
 
     this.setupRules();

@@ -1,46 +1,60 @@
 import { Injectable } from '@angular/core';
-import { Photo } from '../models/Photo';
-import { Observable } from 'rxjs';
-import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { Photo } from '../models/Photo';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PhotosService {
 
-  constructor(private http: HttpClient) { }
-    
-  // Listar todos las Photos
+  private apiUrl = `${environment.url_backend}/photos`;
+
+  constructor(private http: HttpClient) {}
+
+  /** Obtener todas las fotos */
   list(): Observable<Photo[]> {
-    return this.http.get<Photo[]>(`${environment.url_backend}/Photos`);
+    return this.http.get<Photo[]>(this.apiUrl);
   }
 
-  // Ver unPhoto por ID
+  /** Obtener foto por ID */
   view(id: number): Observable<Photo> {
-    return this.http.get<Photo>(`${environment.url_backend}/Photos/${id}`);
+    return this.http.get<Photo>(`${this.apiUrl}/${id}`);
   }
 
-  // Crear unPhoto
-  create(newPhoto: Photo): Observable<Photo> {
-    delete newPhoto.id; // igual que drivers
-    return this.http.post<Photo>(`${environment.url_backend}/Photos`, newPhoto);
+  /** Crear foto SIN archivo */
+  create(photo: Photo): Observable<Photo> {
+    return this.http.post<Photo>(this.apiUrl, photo);
   }
 
-  // Actualizar unPhoto existente
-  update(thePhoto: Photo): Observable<Photo> {
-    return this.http.put<Photo>(`${environment.url_backend}/Photos/${thePhoto.id}`, thePhoto);
+  /** Actualizar foto SIN archivo */
+  update(photo: Photo): Observable<Photo> {
+    return this.http.put<Photo>(`${this.apiUrl}/${photo.id}`, photo);
   }
 
-  // Eliminar unPhoto
-  delete(id: number): Observable<Photo> {
-    return this.http.delete<Photo>(`${environment.url_backend}/Photos/${id}`);
+  /** Eliminar foto */
+  delete(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${id}`);
   }
 
-  uploadFile(file: File): Observable<any> {
+  /**
+   * Crear o actualizar foto CON archivo
+   * Ruta backend: POST /photos/upload
+   */
+  uploadWithData(data: any, file: File): Observable<any> {
     const formData = new FormData();
+
+    // Agregar datos normales del formulario
+    Object.keys(data).forEach(key => {
+      if (data[key] !== undefined && data[key] !== null) {
+        formData.append(key, data[key]);
+      }
+    });
+
+    // Archivo
     formData.append('file', file);
 
-    return this.http.post(`${environment.url_backend}/photos/upload`, formData);
+    return this.http.post(`${this.apiUrl}/upload`, formData);
   }
 }

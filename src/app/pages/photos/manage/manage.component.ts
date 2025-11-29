@@ -24,7 +24,6 @@ export class ManageComponent implements OnInit {
   /** Campos del formulario */
   fields: string[] = [
     'id',
-    'image_url',
     'caption',
     'taken_at',
     'issue_id',
@@ -61,7 +60,7 @@ export class ManageComponent implements OnInit {
     this.disableFields = ['id'];
     if (this.mode === 2) {
       this.hiddenFields = ['id'];
-      this.disableFields = ['image_url'];
+      this.disableFields = ['taken_at'];
     }
 
     this.setupRules();
@@ -70,6 +69,9 @@ export class ManageComponent implements OnInit {
         Swal.fire('Atención', 'Debe crear una orden antes de gestionar direcciones', 'warning');
         this.router.navigate(['/issues/create']);
         return;
+      }
+      this.selectFields = {
+        issue_id : this.issues
       }
       
       // Cargar registro si aplica
@@ -88,9 +90,8 @@ export class ManageComponent implements OnInit {
   setupRules() {
     this.rules = {
       caption: [Validators.required, Validators.maxLength(30), Validators.minLength(3)],
-      taken_at: [Validators.required],
       issue_id: [Validators.required],
-      file: [Validators.required]
+      file: this.mode === 2 ? [Validators.required] : []
     };
   }
 
@@ -155,38 +156,48 @@ export class ManageComponent implements OnInit {
 
   /** Crear registro */
   createPhoto(formValue: any) {
-    const file = formValue.file
-    delete formValue.file; // 👈 evitar enviar file al backend  
+    formValue.issue_id = Number(formValue.issue_id);
     formValue.taken_at = new Date().toISOString();
-    console.log(formValue)
-    
-    this.service.uploadFile(file).pipe(
-      switchMap((resp: any) => {
-        formValue.image_url = resp.path;  // ejemplo: "/uploads/img.jpg"
-        console.log(formValue)
-        return this.service.create(formValue);
-      })
-    )
-    .subscribe({
+
+    const file = formValue.file;
+    delete formValue.file;
+
+    // Si NO hay archivo → Crear normal
+    if (!file) {
+      this.service.create(formValue).subscribe({
+        next: () => {
+          Swal.fire('Creado!', 'Foto registrada', 'success');
+          this.router.navigate(['/Photos/list']);
+        },
+        error: () => Swal.fire('Error', 'No se pudo crear la foto', 'error')
+      });
+      return;
+    }
+
+    // Si hay archivo → Crear con archivo
+    this.service.uploadWithData(formValue, file).subscribe({
       next: () => {
-        Swal.fire('Actualizado!', 'Cambios guardados', 'success');
+        Swal.fire('Creado!', 'Foto registrada con imagen', 'success');
         this.router.navigate(['/Photos/list']);
       },
-      error: () => Swal.fire('Error', 'No se pudo actualizar', 'error')
+      error: () => Swal.fire('Error', 'No se pudo crear la foto con archivo', 'error')
     });
   }
 
+
+
   /** Actualizar registro */
   updatePhoto(formValue: any) {
-    const file = formValue.file;
-    delete formValue.file; // ❗ evitar enviar file al backend
-    formValue.taken_at = new Date().toISOString();
+    formValue.issue_id = Number(formValue.issue_id);
 
+    const file = formValue.file;
+    delete formValue.file;
+
+    // Caso 1: NO hay archivo → actualizar normal
     if (!file) {
-      // No hay archivo nuevo → solo actualizar
       this.service.update(formValue).subscribe({
         next: () => {
-          Swal.fire('Actualizado!', 'Cambios guardados', 'success');
+          Swal.fire('Actualizado!', 'Foto actualizada correctamente', 'success');
           this.router.navigate(['/Photos/list']);
         },
         error: () => Swal.fire('Error', 'No se pudo actualizar', 'error')
@@ -194,29 +205,29 @@ export class ManageComponent implements OnInit {
       return;
     }
 
-    this.service.uploadFile(file).pipe(
-      switchMap((resp: any) => {
-        formValue.image_url = resp.path;  // ejemplo: "/uploads/img.jpg"
-        return this.service.update(formValue);
-      })
-    )
-    .subscribe({
-      next: () => {
-        Swal.fire('Actualizado!', 'Cambios guardados', 'success');
-        this.router.navigate(['/Photos/list']);
+    // Caso 2: HAY archivo → subirlo primero
+    this.service.uploadWithData(formValue, file).subscribe({
+      next: (resp: any) => {
+
+        // Si backend devuelve la nueva URL
+        if (resp.image_url) {
+          formValue.image_url = resp.image_url;
+        }
+
+        // Luego hacer update normal
+        this.service.update(formValue).subscribe({
+          next: () => {
+            Swal.fire('Actualizado!', 'Foto actualizada con nueva imagen', 'success');
+            this.router.navigate(['/Photos/list']);
+          },
+          error: () => Swal.fire('Error', 'No se pudo actualizar la foto', 'error')
+        });
       },
-      error: () => Swal.fire('Error', 'No se pudo actualizar', 'error')
+      error: () => Swal.fire('Error', 'No se pudo subir la nueva imagen', 'error')
     });
   }
 
-  uploadFile(file: File){
-    this.service.uploadFile(file).subscribe({
-      next: (resp: any) => {
-        const ruta = resp.path;  // ejemplo: "/uploads/imagen_x.jpg"
-        return ruta
-      },
-      error: () => Swal.fire('Error', 'No se pudo subir el archivo', 'error')
-    });
-  }
+
+
 
 }

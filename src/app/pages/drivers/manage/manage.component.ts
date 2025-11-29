@@ -38,6 +38,10 @@ export class ManageComponent implements OnInit {
   /** Campos ocultos */
   hiddenFields: string[] = [];
 
+  selectFields: any = {
+    status: [{ value: 'available', label: 'Disponible' },{ value: 'on_delivery', label: 'En entrega' },{ value: 'break', label: 'En descanso' },{ value: 'offline', label: 'Fuera de línea' },{ value: 'maintenance', label: 'Mantenimiento' },{ value: 'unassigned', label: 'Sin asignación' }]
+  };
+
   constructor(private activatedRoute: ActivatedRoute,private service: DriversService,private router: Router) {}
 
   ngOnInit(): void {
@@ -103,7 +107,8 @@ export class ManageComponent implements OnInit {
       rules: this.rules,
       hiddenFields: this.hiddenFields,
       disableFields: this.disableFields,
-      model: this.driver || {}  // datos iniciales\
+      model: this.driver || {}, // datos iniciales
+      selectFields: this.selectFields
     };
   }
 

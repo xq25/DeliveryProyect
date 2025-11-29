@@ -170,6 +170,7 @@ export class ManageComponent implements OnInit {
   /** Crear registro */
   createMenu(formValue: any) {
     
+    formValue.availability = formValue.availability === 'true'? true: false;
     this.service.create(formValue).subscribe({
       next: () => {
         Swal.fire('Creado!', 'Registro creado correctamente', 'success');
@@ -185,6 +186,7 @@ export class ManageComponent implements OnInit {
 
   /** Actualizar registro */
   updateMenu(formValue: any) {
+    formValue.availability = formValue.availability === 'true'? true: false;
     this.service.update(formValue).subscribe({
       next: () => {
         Swal.fire('Actualizado!', 'Registro actualizado correctamente', 'success');

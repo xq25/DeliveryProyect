@@ -7,6 +7,7 @@ import { OrdersService } from 'src/app/services/orders.service';
 import { Order } from 'src/app/models/Order';
 import { CustomersService } from 'src/app/services/customers.service';
 import { MotorcyclesService } from 'src/app/services/motorcycles.service';
+import { MenusService } from 'src/app/services/menus.service';
 // import { MotorcyclesService } from 'src/app/services/motorcycles.service';
 // import { MenusService } from 'src/app/services/menus.service';
 
@@ -27,6 +28,7 @@ export class ManageComponent implements OnInit {
 
   /** Campos del formulario */
   fields: string[] = [
+    'id',
     'quantity',
     'total_price',
     'status',
@@ -36,7 +38,9 @@ export class ManageComponent implements OnInit {
   ];
 
   /** Campos SELECT */
-  selectFields: any = {};
+  selectFields: any = {
+
+  };
 
   /** Config dynamic-form */
   formConfig: any;
@@ -51,7 +55,7 @@ export class ManageComponent implements OnInit {
     private router: Router,
     private customersService: CustomersService,
     private motorcyclesService: MotorcyclesService,
-    // private menusService: MenusService,
+    private menusService: MenusService,
   ) {}
 
   ngOnInit(): void {
@@ -64,11 +68,8 @@ export class ManageComponent implements OnInit {
     else if (url.includes('update')) this.mode = 3;
     
     this.disableFields = ['id'];
-    if (this.mode === 2) {
-      this.hiddenFields = ['id'];
-    }
     if (this.mode === 1){
-      this.hiddenFields = ['quantity','total_price','status','motorcycle_id','customer_id','menu_id'];
+      this.disableFields = ['quantity','total_price','status','motorcycle_id','customer_id','menu_id'];
     }
 
     this.setupRules();
@@ -82,6 +83,7 @@ export class ManageComponent implements OnInit {
       }
       // Luego de tener los IDs ya podemos construir los selectFields
       this.selectFields = {
+        status: [ { value: 'pending', label: 'Pendiente' }, { value: 'accepted', label: 'Aceptado' }, { value: 'preparing', label: 'Preparando' }, { value: 'ready', label: 'Listo para recoger' }, { value: 'on_route', label: 'En camino' }, { value: 'delivered', label: 'Entregado' }, { value: 'cancelled', label: 'Cancelado' }, { value: 'failed', label: 'Entrega fallida' } ],
         motorcycle_id: this.motorcycles,
         customer_id: this.customers,
         menu_id: this.menus,
@@ -102,8 +104,8 @@ export class ManageComponent implements OnInit {
   /** Validaciones */
   setupRules() {
     this.rules = {
-      quantity: [Validators.required],
-      total_price: [Validators.required],
+      quantity: [Validators.required, Validators.pattern(/^\d+$/), Validators.min(1)],
+      total_price: [Validators.required, Validators.min(0)],
       status: [Validators.required],
       motorcycle_id: [Validators.required],
       customer_id: [Validators.required],
@@ -142,14 +144,13 @@ export class ManageComponent implements OnInit {
     });
 
     // MENUS
-    // this.menusService.list().subscribe(menus => {
-    //   this.menus_id = menus.map(m => m.id);
-    //   if (--pending === 0) callback();
-    // });
+    this.menusService.list().subscribe(menus => {
+      this.menus = menus.map(m => {
+        return {value: m.id, label: m.id}
+      });
+      if (--pending === 0) callback();
+    });
 
-    // Si aún no tienes motos y menús, simulemos vacío:
-    this.menus = [];
-    if (--pending === 0) callback();
   }
 
   /** Armar configuración del DynamicForm */
@@ -186,6 +187,7 @@ export class ManageComponent implements OnInit {
 
   /** Crear */
   createOrder(formValue: any) {
+    formValue.quantity = Math.floor(formValue.quantity)
     this.service.create(formValue).subscribe({
       next: () => {
         Swal.fire('Creado!', 'Orden creada correctamente', 'success');
@@ -200,6 +202,7 @@ export class ManageComponent implements OnInit {
 
   /** Actualizar */
   updateOrder(formValue: any) {
+    formValue.quantity = Math.floor(formValue.quantity)
     this.service.update(formValue).subscribe({
       next: () => {
         Swal.fire('Actualizado!', 'Orden actualizada correctamente', 'success');
