@@ -27,6 +27,7 @@ export class ManageComponent implements OnInit {
     'caption',
     'taken_at',
     'issue_id',
+    'image_url',
     'file',
   ];
 
@@ -57,10 +58,20 @@ export class ManageComponent implements OnInit {
     else if (url.includes('update')) this.mode = 3;
 
     // Configuración inicial
-    this.disableFields = ['id'];
+    this.disableFields = ['id','image_url'];
     if (this.mode === 2) {
-      this.hiddenFields = ['id'];
+      this.hiddenFields = ['id','image_url'];
       this.disableFields = ['taken_at'];
+    }
+    if(this.mode === 1){
+      this.disableFields = [
+        'id',
+        'caption',
+        'taken_at',
+        'issue_id',
+        'image_url',
+        'file',
+      ];
     }
 
     this.setupRules();
@@ -97,17 +108,26 @@ export class ManageComponent implements OnInit {
 
   /** Cargar registro desde backend */
   loadPhoto(id: number) {
-    this.service.view(id).subscribe({
-      next: (resp) => {
-        this.photo = resp;
+    // 1. Obtener todas las fotos (sí devuelven JSON)
+    this.service.list().subscribe({
+      next: (photos) => {
+        const photo = photos.find(p => p.id == id);
+
+        if (!photo) {
+          Swal.fire('Error', 'Foto no encontrada', 'error');
+          return;
+        }
+
+        this.photo = photo; // ← JSON válido desde list()
         this.buildFormConfig();
+
+        // 2. Cargar la imagen real (opcional)
+        this.loadImageBlob(id);
       },
-      error: (err) => {
-        console.error(err);
-        Swal.fire('Error', 'No se pudo cargar el registro', 'error');
-      }
+      error: () => Swal.fire('Error', 'No se pudo cargar la foto', 'error')
     });
   }
+
   getIds(callback: Function) {
     let pending = 1; // cuando llegue a 0 → callback()
 
@@ -167,7 +187,6 @@ export class ManageComponent implements OnInit {
       this.service.create(formValue).subscribe({
         next: () => {
           Swal.fire('Creado!', 'Foto registrada', 'success');
-          this.router.navigate(['/Photos/list']);
         },
         error: () => Swal.fire('Error', 'No se pudo crear la foto', 'error')
       });
@@ -179,12 +198,11 @@ export class ManageComponent implements OnInit {
       next: () => {
         Swal.fire('Creado!', 'Foto registrada con imagen', 'success');
         this.router.navigate(['/Photos/list']);
+        return;
       },
       error: () => Swal.fire('Error', 'No se pudo crear la foto con archivo', 'error')
     });
   }
-
-
 
   /** Actualizar registro */
   updatePhoto(formValue: any) {
@@ -227,7 +245,12 @@ export class ManageComponent implements OnInit {
     });
   }
 
-
+  loadImageBlob(id: number) {
+    this.service.view(id).subscribe(blob => {
+      const url = URL.createObjectURL(blob);
+      this.photo!.image_url = url; // mostrar en UI
+    });
+  }
 
 
 }

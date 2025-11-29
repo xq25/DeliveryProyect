@@ -18,9 +18,9 @@ export class PhotosService {
     return this.http.get<Photo[]>(this.apiUrl);
   }
 
-  /** Obtener foto por ID */
-  view(id: number): Observable<Photo> {
-    return this.http.get<Photo>(`${this.apiUrl}/${id}`);
+  /** Obtener la imagen física (Blob), NO JSON */
+  view(id: number): Observable<Blob> {
+    return this.http.get(`${this.apiUrl}/${id}`, { responseType: 'blob' });
   }
 
   /** Crear foto SIN archivo */
