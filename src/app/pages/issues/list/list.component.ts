@@ -21,10 +21,15 @@ export class ListComponent implements OnInit {
   constructor(private service: IssuesService, private router: Router) { }
 
   ngOnInit(): void {
+    const excluded = ['photos']
     this.service.list().subscribe(data => {
       this.issues = data;
       if (data.length > 0) {
-        this.headers = Object.keys(data[0]);
+        this.headers = Object.keys(data[0]).filter(key => !excluded.includes(key)).sort((a, b) => {
+          const aIsId = a.toLowerCase().includes('id') ? 0 : 1;
+          const bIsId = b.toLowerCase().includes('id') ? 0 : 1;
+          return aIsId - bIsId;
+        });
       }
     });
   }

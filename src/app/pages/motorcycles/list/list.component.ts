@@ -56,6 +56,9 @@ export class ListComponent implements OnInit {
         }
       })
   }
+  lookIssues(){
+    this.router.navigate(['/issues/list']);
+  }
   create(){
     this.router.navigate([`/motorcycles/create`])
   }

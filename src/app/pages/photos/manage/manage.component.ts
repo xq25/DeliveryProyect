@@ -159,7 +159,7 @@ export class ManageComponent implements OnInit {
   handleFormSubmit(event: any) {
 
     if (event.action === 'back') {
-      this.router.navigate(['/Photos/list']);
+      this.router.navigate(['/photos/list']);
       return;
     }
 
@@ -187,6 +187,7 @@ export class ManageComponent implements OnInit {
       this.service.create(formValue).subscribe({
         next: () => {
           Swal.fire('Creado!', 'Foto registrada', 'success');
+          this.router.navigate(['/photos/list']);
         },
         error: () => Swal.fire('Error', 'No se pudo crear la foto', 'error')
       });
@@ -197,8 +198,7 @@ export class ManageComponent implements OnInit {
     this.service.uploadWithData(formValue, file).subscribe({
       next: () => {
         Swal.fire('Creado!', 'Foto registrada con imagen', 'success');
-        this.router.navigate(['/Photos/list']);
-        return;
+        this.router.navigate(['/photos/list']);
       },
       error: () => Swal.fire('Error', 'No se pudo crear la foto con archivo', 'error')
     });
@@ -216,11 +216,11 @@ export class ManageComponent implements OnInit {
       this.service.update(formValue).subscribe({
         next: () => {
           Swal.fire('Actualizado!', 'Foto actualizada correctamente', 'success');
-          this.router.navigate(['/Photos/list']);
+          this.router.navigate(['/photos/list']);
         },
         error: () => Swal.fire('Error', 'No se pudo actualizar', 'error')
       });
-      return;
+      return
     }
 
     // Caso 2: HAY archivo → subirlo primero
@@ -236,13 +236,14 @@ export class ManageComponent implements OnInit {
         this.service.update(formValue).subscribe({
           next: () => {
             Swal.fire('Actualizado!', 'Foto actualizada con nueva imagen', 'success');
-            this.router.navigate(['/Photos/list']);
+            this.router.navigate(['/photos/list']);
           },
           error: () => Swal.fire('Error', 'No se pudo actualizar la foto', 'error')
         });
       },
       error: () => Swal.fire('Error', 'No se pudo subir la nueva imagen', 'error')
     });
+    return
   }
 
   loadImageBlob(id: number) {
