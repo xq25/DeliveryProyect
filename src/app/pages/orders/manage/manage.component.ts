@@ -8,6 +8,7 @@ import { Order } from 'src/app/models/Order';
 import { CustomersService } from 'src/app/services/customers.service';
 import { MotorcyclesService } from 'src/app/services/motorcycles.service';
 import { MenusService } from 'src/app/services/menus.service';
+import { NotificationService } from 'src/app/services/notifications.service';
 // import { MotorcyclesService } from 'src/app/services/motorcycles.service';
 // import { MenusService } from 'src/app/services/menus.service';
 
@@ -56,6 +57,7 @@ export class ManageComponent implements OnInit {
     private customersService: CustomersService,
     private motorcyclesService: MotorcyclesService,
     private menusService: MenusService,
+    private notyService: NotificationService
   ) {}
 
   ngOnInit(): void {
@@ -191,6 +193,7 @@ export class ManageComponent implements OnInit {
     this.service.create(formValue).subscribe({
       next: () => {
         Swal.fire('Creado!', 'Orden creada correctamente', 'success');
+        this.notyService.push('success', 'Nueva orden asiganda');
         this.router.navigate(['/orders/list']);
       },
       error: (err) => {
@@ -206,6 +209,7 @@ export class ManageComponent implements OnInit {
     this.service.update(formValue).subscribe({
       next: () => {
         Swal.fire('Actualizado!', 'Orden actualizada correctamente', 'success');
+        this.notyService.push('warning', ' orden modificada');
         this.router.navigate(['/orders/list']);
       },
       error: (err) => {
