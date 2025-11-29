@@ -29,7 +29,7 @@ export class ListComponent implements OnInit {
     });
   }
   view(id: number){
-    this.router.navigate([`/addresses/view/${id}`])
+    this.router.navigate([`/addresses/view/${id}`]);
   }
   delete(id: number) {
     console.log("Delete address with id:", id);
@@ -70,6 +70,9 @@ export class ListComponent implements OnInit {
     }
     else if (event.action === 'delete') {
       this.delete(event.row.id);
+    }
+    else if (event.action === 'view'){
+      this.view(event.row.id);
     }
   }
 

@@ -57,6 +57,9 @@ export class ManageComponent implements OnInit {
     this.disableFields = ['id'];
     this.hiddenFields = ['date_reported']
     if (this.mode === 2) this.hiddenFields.push('id');
+    if (this.mode === 1){
+      this.disableFields = ['id','description','issue_type','date_reported','status','motorcycle_id'];
+    }
 
     this.setupRules();
     this.getIds(() => {

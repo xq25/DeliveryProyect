@@ -18,7 +18,9 @@ export class ListComponent implements OnInit {
   actionButtons = [
     { label: 'Ver', class: 'btn btn-info btn-sm', action: 'view' },
     { label: 'Editar', class: 'btn btn-warning btn-sm', action: 'edit' },
-    { label: 'Eliminar', class: 'btn btn-danger btn-sm', action: 'delete' }
+    { label: 'Eliminar', class: 'btn btn-danger btn-sm', action: 'delete' },
+    { label: 'Visualizar Envio', class: 'btn btn-primary btn-sm', action: 'tracking' }
+
   ];
 
   ngOnInit(): void {
@@ -76,6 +78,12 @@ export class ListComponent implements OnInit {
     }
     else if (event.action === 'delete') {
       this.delete(event.row.id);
+    }
+    else if (event.action === 'view'){
+      this.view(event.row.id);
+    }
+    else if (event.action === 'tracking'){
+      // Agregar la pagina de mapa con la moto en movimiento
     }
   }
 
