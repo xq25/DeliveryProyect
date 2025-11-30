@@ -68,6 +68,9 @@ export class ListComponent implements OnInit {
   update(id: number){
     this.router.navigate([`/issues/update/${id}`])
   }
+  redirectPhotos(){
+    this.router.navigate(['/photos/list'])
+  }
   
   handleTableAction(event: any) {
     if (event.action === 'edit') {
