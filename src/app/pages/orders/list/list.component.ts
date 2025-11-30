@@ -19,7 +19,9 @@ export class ListComponent implements OnInit {
     { label: 'Ver', class: 'btn btn-info btn-sm', action: 'view' },
     { label: 'Editar', class: 'btn btn-warning btn-sm', action: 'edit' },
     { label: 'Eliminar', class: 'btn btn-danger btn-sm', action: 'delete' },
-    { label: 'Visualizar Envio', class: 'btn btn-primary btn-sm', action: 'tracking' }
+    { label: 'Visualizar Envio', class: 'btn btn-primary btn-sm', action: 'tracking'},
+    { label: 'Añadir Direccion', class: 'btn btn-primary btn-sm', action: 'address'}
+
 
   ];
 
@@ -77,6 +79,7 @@ export class ListComponent implements OnInit {
 
 
   handleTableAction(event: any) {
+    console.log(event)
     if (event.action === 'edit') {
       this.update(event.row.id);
     }
@@ -89,6 +92,15 @@ export class ListComponent implements OnInit {
     else if (event.action === 'tracking'){
       // Agregar la pagina de mapa con la moto en movimiento
       this.trackingDelivery()
+    }
+    else if (event.action === 'address'){
+      if (event.row.address === null){
+        this.router.navigate([`/addresses/order/${event.row.id}/create`])
+      }
+      else{
+        this.router.navigate([`/addresses/update/${event.row.address.id}`])
+      }
+      
     }
   }
 

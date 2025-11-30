@@ -193,7 +193,7 @@ export class ManageComponent implements OnInit {
     this.service.create(formValue).subscribe({
       next: () => {
         Swal.fire('Creado!', 'Orden creada correctamente', 'success');
-        this.notyService.push('success', 'Nueva orden asiganda');
+        this.notyService.push('success', 'Nueva Orden Asiganda');
         this.router.navigate(['/orders/list']);
       },
       error: (err) => {
@@ -209,7 +209,7 @@ export class ManageComponent implements OnInit {
     this.service.update(formValue).subscribe({
       next: () => {
         Swal.fire('Actualizado!', 'Orden actualizada correctamente', 'success');
-        this.notyService.push('warning', ' orden modificada');
+        this.notyService.push('warning', 'Orden Modificada');
         this.router.navigate(['/orders/list']);
       },
       error: (err) => {

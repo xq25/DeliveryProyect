@@ -11,14 +11,17 @@ declare interface RouteInfo {
     class: string;
 }
 export const ROUTES: RouteInfo[] = [
-    { path: '/dashboard', title: 'Dashboard',  icon: 'ni-tv-2 text-primary', class: '' },
-    { path: '/icons', title: 'Icons',  icon:'ni-planet text-blue', class: '' },
-    { path: '/maps', title: 'Maps',  icon:'ni-pin-3 text-orange', class: '' },
-    { path: '/user-profile', title: 'User profile',  icon:'ni-single-02 text-yellow', class: '' },
-    { path: '/tables', title: 'Tables',  icon:'ni-bullet-list-67 text-red', class: '' },
-    { path: '/login', title: 'Login',  icon:'ni-key-25 text-info', class: '' },
-    { path: '/register', title: 'Register',  icon:'ni-circle-08 text-pink', class: '' }
+  { path: '/dashboard', title: 'Dashboard', icon: 'ni-tv-2 text-primary', class: '' },             // Dashboard → pantalla
+  { path: '/orders/list', title: 'Pedidos', icon: 'ni-basket text-blue', class: '' },           // Pedidos → carrito
+  { path: '/menus/list', title: 'Menus', icon: 'ni-bullet-list-67 text-orange', class: '' },     // Menus → lista
+  { path: '/shifts/list', title: 'Turnos Repartidores', icon: 'ni-calendar-grid-58 text-yellow', class: '' }, // Turnos → calendario
+  { path: '/motorcycles/list', title: 'Motos', icon: 'ni-settings-gear-65 text-red', class: '' },       // Motos → bicicleta/moto
+  { path: '/drivers/list', title: 'Conductores', icon: 'ni-single-02 text-green', class: '' }, // Conductores → persona
+  { path: '/customers/list', title: 'Clientes', icon: 'ni-hat-3 text-info', class: '' },       // Clientes → usuario
+  { path: '/restaurants/list', title: 'Restaurantes', icon: 'ni-shop text-red', class: '' },    // Restaurantes → tienda/restaurante
+  { path: '/products/list', title: 'Productos', icon: 'ni-box-2 text-pink', class: '' }        // Productos → caja/producto
 ];
+
 
 @Component({
   selector: 'app-sidebar',
