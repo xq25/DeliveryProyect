@@ -17,16 +17,6 @@ export const AdminLayoutRoutes: Routes = [
         path: '',
         children: [
             {
-                path: 'theaters',
-                canActivate: [AuthenticationGuard],
-                loadChildren: () => import('src/app/pages/theaters/theaters.module').then(m => m.TheatersModule)
-            }
-        ]
-    },
-    {
-        path: '',
-        children: [
-            {
                 path: 'drivers',
                 canActivate: [AuthenticationGuard],
                 loadChildren: () => import('src/app/pages/drivers/drivers.module').then(m => m.DriversModule)
