@@ -71,6 +71,9 @@ export class ListComponent implements OnInit {
     else if (event.action === 'delete') {
       this.delete(event.row.id);
     }
+    else if (event.action === 'view'){
+      this.view(event.row.id);
+    }
   }
 
 }

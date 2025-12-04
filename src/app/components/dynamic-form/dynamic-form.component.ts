@@ -95,7 +95,7 @@ export class DynamicFormComponent implements OnInit {
   //Utilities
   detectInputType(field: string): string {
     if (field.includes('email')) return 'email';
-    if (field.includes('phone') || field === 'year' || field === 'price') return 'number';
+    if (field.includes('phone') || field === 'year' || field.includes('price') || field === 'quantity') return 'number';
     return 'text';
   }
 

@@ -1,5 +1,9 @@
+<div class="table-title">
+  Motorcycles <span class="emoji">🏍️</span>
+</div>
 <div>
-    <button type="button" class="btn btn-success " (click)="create()">Crear +</button>
+    <button type="button" class="btn btn-success " (click)="create()">Crear </button>
+    <button type="button" class="btn btn-warning " (click)="lookIssues()">Gestion de Reportes <span class="emoji">⚠️</span></button>
     <app-table 
         [data]="motorcycles"
         [headers]="headers"

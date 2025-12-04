@@ -18,7 +18,11 @@ export class ListComponent implements OnInit {
   actionButtons = [
     { label: 'Ver', class: 'btn btn-info btn-sm', action: 'view' },
     { label: 'Editar', class: 'btn btn-warning btn-sm', action: 'edit' },
-    { label: 'Eliminar', class: 'btn btn-danger btn-sm', action: 'delete' }
+    { label: 'Eliminar', class: 'btn btn-danger btn-sm', action: 'delete' },
+    { label: 'Visualizar Envio', class: 'btn btn-primary btn-sm', action: 'tracking'},
+    { label: 'Añadir Direccion', class: 'btn btn-primary btn-sm', action: 'address'}
+
+
   ];
 
   ngOnInit(): void {
@@ -69,13 +73,34 @@ export class ListComponent implements OnInit {
   update(id: number){
     this.router.navigate([`/orders/update/${id}`])
   }
+  trackingDelivery(){
+    this.router.navigate(['../']) //Direccion de la pagina de visualizacion del mapa.
+  }
+
 
   handleTableAction(event: any) {
+    console.log(event)
     if (event.action === 'edit') {
       this.update(event.row.id);
     }
     else if (event.action === 'delete') {
       this.delete(event.row.id);
+    }
+    else if (event.action === 'view'){
+      this.view(event.row.id);
+    }
+    else if (event.action === 'tracking'){
+      // Agregar la pagina de mapa con la moto en movimiento
+      this.trackingDelivery()
+    }
+    else if (event.action === 'address'){
+      if (event.row.address === null){
+        this.router.navigate([`/addresses/order/${event.row.id}/create`])
+      }
+      else{
+        this.router.navigate([`/addresses/update/${event.row.address.id}`])
+      }
+      
     }
   }
 

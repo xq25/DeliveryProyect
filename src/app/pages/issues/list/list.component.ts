@@ -21,10 +21,15 @@ export class ListComponent implements OnInit {
   constructor(private service: IssuesService, private router: Router) { }
 
   ngOnInit(): void {
+    const excluded = ['photos']
     this.service.list().subscribe(data => {
       this.issues = data;
       if (data.length > 0) {
-        this.headers = Object.keys(data[0]);
+        this.headers = Object.keys(data[0]).filter(key => !excluded.includes(key)).sort((a, b) => {
+          const aIsId = a.toLowerCase().includes('id') ? 0 : 1;
+          const bIsId = b.toLowerCase().includes('id') ? 0 : 1;
+          return aIsId - bIsId;
+        });
       }
     });
   }
@@ -63,6 +68,9 @@ export class ListComponent implements OnInit {
   update(id: number){
     this.router.navigate([`/issues/update/${id}`])
   }
+  redirectPhotos(){
+    this.router.navigate(['/photos/list'])
+  }
   
   handleTableAction(event: any) {
     if (event.action === 'edit') {
@@ -70,6 +78,9 @@ export class ListComponent implements OnInit {
     }
     else if (event.action === 'delete') {
       this.delete(event.row.id);
+    }
+    else if (event.action === 'view'){
+      this.view(event.row.id);
     }
   }
 

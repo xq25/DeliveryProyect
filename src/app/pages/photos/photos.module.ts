@@ -18,7 +18,7 @@ import { ComponentsModule } from 'src/app/components/components.module';
     PhotosRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    ComponentsModule,
+    ComponentsModule
   ]
 })
 export class PhotosModule { }

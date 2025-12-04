@@ -50,7 +50,7 @@
                     && form.get('image_url')?.value" 
               class="preview-box"
             >
-              <img [src]="form.get('image_url')?.value" class="preview-image" />
+              <img [src]="'http://localhost:5000/' + form.get('image_url')?.value"/>
             </div>
 
           </div>

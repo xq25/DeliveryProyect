@@ -55,11 +55,19 @@ export class ManageComponent implements OnInit {
     else if (url.includes('update')) this.mode = 3;
 
     // Configuración inicial
-    this.disableFields = ['id'];
-    if (this.mode === 2) {
-      this.hiddenFields = ['id'];
+    this.disableFields = ['id', 'start_time','end_time' ];
+    if (this.mode === 3){
+      this.selectFields['status'] = [{ value: 'available', label: 'Disponible' }, { value: 'on_delivery', label: 'En entrega' }, { value: 'on_break', label: 'En descanso' }, { value: 'busy', label: 'Ocupado' }, { value: 'offline', label: 'Fuera de línea' },{ value: 'end_shift', label: 'Turno finalizado' }, { value: 'completed', label: 'Completado' }]
+      
     }
-
+    if (this.mode === 2) {
+      this.selectFields['status'] = [{ value: 'available', label: 'Disponible' }, { value: 'on_delivery', label: 'En entrega' }, { value: 'busy', label: 'Ocupado' }, { value: 'offline', label: 'Fuera de línea' }]
+      this.hiddenFields = ['id'];
+      
+    }
+    if(this.mode === 1){
+      this.disableFields = ['id','start_time','end_time','status','driver_id','motorcycle_id']
+    }
     this.setupRules();
 
     this.getIds(() => {
@@ -68,11 +76,8 @@ export class ManageComponent implements OnInit {
         this.router.navigate(['/shifts/list']);
         return;
       }
-      this.selectFields = {
-        status: [{ value: 'available', label: 'Available' }, { value: 'unavailable', label: 'Unavailable' }],
-        driver_id: this.drivers,
-        motorcycle_id: this.motorcycles,
-      };
+      this.selectFields['driver_id'] = this.drivers;
+      this.selectFields['motorcycle_id'] = this.motorcycles
       // Cargar registro (si aplica)
       const id = this.activatedRoute.snapshot.params['id'];
 
@@ -160,7 +165,6 @@ export class ManageComponent implements OnInit {
 
   /** Crear registro */
   createShift(formValue: any) {
-    
     this.service.create(formValue).subscribe({
       next: () => {
         Swal.fire('Creado!', 'Registro creado correctamente', 'success');
@@ -176,6 +180,9 @@ export class ManageComponent implements OnInit {
 
   /** Actualizar registro */
   updateShift(formValue: any) {
+    if(formValue.status === 'end_shift'){
+      formValue.end_time = new Date().toISOString();
+    }
     this.service.update(formValue).subscribe({
       next: () => {
         Swal.fire('Actualizado!', 'Registro actualizado correctamente', 'success');

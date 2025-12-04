@@ -20,6 +20,10 @@ const routes: Routes = [
   {
     path: 'update/:id',
     component: ManageComponent  
+  },
+  {
+    path: 'order/:order_id/create',
+    component: ManageComponent
   }
 ];
 

@@ -1,0 +1,13 @@
+<div class="chart-wrapper">
+
+  <h3 class="chart-title">{{ tableName | titlecase }}</h3>
+  <p class="chart-question">{{ question }}</p>
+
+  <div class="chart-box">
+    <canvas 
+      baseChart
+      [data]="chartData"
+      [type]="chartType"
+    ></canvas>
+  </div>
+</div>

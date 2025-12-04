@@ -99,6 +99,15 @@
 }
 .preview-box {
   margin-top: 10px;
+  width: 100%;
+  height: 220px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fafafa;
 }
 
 .preview-image {

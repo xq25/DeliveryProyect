@@ -56,6 +56,9 @@ export class ListComponent implements OnInit {
         }
       })
   }
+  lookIssues(){
+    this.router.navigate(['/issues/list']);
+  }
   create(){
     this.router.navigate([`/motorcycles/create`])
   }
@@ -70,6 +73,9 @@ export class ListComponent implements OnInit {
     }
     else if (event.action === 'delete') {
       this.delete(event.row.id);
+    }
+    else if (event.action === 'view'){
+      this.view(event.row.id);
     }
   }
 }

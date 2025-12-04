@@ -20,10 +20,15 @@ export class ListComponent implements OnInit {
   constructor(private service: MenusService, private router: Router) { }
 
   ngOnInit(): void {
+    const excluded = ['product', 'restaurant'];
     this.service.list().subscribe(data => {
       this.menus = data;
       if (data.length > 0) {
-        this.headers = Object.keys(data[0]);
+        this.headers = Object.keys(data[0]).filter(key => !excluded.includes(key)).sort((a, b) => {
+          const aIsId = a.toLowerCase().includes('id') ? 0 : 1;
+          const bIsId = b.toLowerCase().includes('id') ? 0 : 1;
+          return aIsId - bIsId;
+        });
       }
     });
   }
@@ -69,6 +74,9 @@ export class ListComponent implements OnInit {
     }
     else if (event.action === 'delete') {
       this.delete(event.row.id);
+    }
+    else if (event.action === 'view'){
+      this.view(event.row.id);
     }
   }
 

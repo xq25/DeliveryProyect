@@ -1,5 +1,9 @@
+<div class="table-title">
+  Issues <span class="emoji">⛔</span>
+</div>
 <div>
     <button type="button" class="btn btn-success " (click)="create()">Crear</button>
+    <button type="button" class="btn btn-warning " (click)="redirectPhotos()">Gestion de Evidencias</button>
     <app-table 
         [data]="issues"
         [headers]="headers"

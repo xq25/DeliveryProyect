@@ -61,6 +61,9 @@ export class ManageComponent implements OnInit {
     if (this.mode === 2) {
       this.hiddenFields = ['id'];
     }
+    if (this.mode === 1){
+      this.disableFields = ['id', 'price','availability','restaurant_id','product_id']
+    }
 
     this.setupRules();
 
@@ -167,6 +170,7 @@ export class ManageComponent implements OnInit {
   /** Crear registro */
   createMenu(formValue: any) {
     
+    formValue.availability = formValue.availability === 'true'? true: false;
     this.service.create(formValue).subscribe({
       next: () => {
         Swal.fire('Creado!', 'Registro creado correctamente', 'success');
@@ -182,6 +186,7 @@ export class ManageComponent implements OnInit {
 
   /** Actualizar registro */
   updateMenu(formValue: any) {
+    formValue.availability = formValue.availability === 'true'? true: false;
     this.service.update(formValue).subscribe({
       next: () => {
         Swal.fire('Actualizado!', 'Registro actualizado correctamente', 'success');

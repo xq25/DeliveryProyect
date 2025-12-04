@@ -9,6 +9,11 @@ const routes: Routes = [
     component: ListComponent
   },
   {
+    path: 'view/:id',
+    component: ManageComponent
+  },
+
+  {
     path:"create",
     component: ManageComponent
   },

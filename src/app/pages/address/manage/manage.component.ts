@@ -57,6 +57,9 @@ export class ManageComponent implements OnInit {
     // Configuración inicial
     this.disableFields = ['id'];
     if (this.mode === 2) this.hiddenFields = ['id'];
+    if (this.mode === 1){
+      this.disableFields = ['id','street','city','state','postal_code','additional_info','order_id'];
+    }
 
     this.setupRules();
     this.getIds(() => {
@@ -68,10 +71,16 @@ export class ManageComponent implements OnInit {
       this.selectFields['order_id'] = this.orders;
       // Cargar registro si aplica
       const id = this.activatedRoute.snapshot.params['id'];
+      const orderId = this.activatedRoute.snapshot.params['order_id']
 
       if (id) {
         this.loadAddress(id);
-      } else {
+      }else if(orderId){
+        this.address = {order_id: orderId};
+        this.disableFields.push('order_id');
+        this.buildFormConfig()
+      }
+      else {
         this.address = undefined;
         this.buildFormConfig();
       }

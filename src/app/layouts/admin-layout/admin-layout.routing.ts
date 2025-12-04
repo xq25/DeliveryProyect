@@ -17,16 +17,6 @@ export const AdminLayoutRoutes: Routes = [
         path: '',
         children: [
             {
-                path: 'theaters',
-                canActivate: [AuthenticationGuard],
-                loadChildren: () => import('src/app/pages/theaters/theaters.module').then(m => m.TheatersModule)
-            }
-        ]
-    },
-    {
-        path: '',
-        children: [
-            {
                 path: 'drivers',
                 canActivate: [AuthenticationGuard],
                 loadChildren: () => import('src/app/pages/drivers/drivers.module').then(m => m.DriversModule)
@@ -107,16 +97,6 @@ export const AdminLayoutRoutes: Routes = [
         path: '',
         children: [
             {
-                path: 'departaments',
-                canActivate: [AuthenticationGuard],
-                loadChildren: () => import('src/app/pages/departaments/departaments.module').then(m => m.DepartamentsModule)
-            }
-        ]
-    },
-    {
-        path: '',
-        children: [
-            {
                 path: 'shifts',
                 canActivate: [AuthenticationGuard],
                 loadChildren: () => import('src/app/pages/shifts/shifts.module').then(m => m.ShiftsModule)
@@ -140,6 +120,16 @@ export const AdminLayoutRoutes: Routes = [
                 path: 'photos',
                 canActivate: [AuthenticationGuard],
                 loadChildren: () => import('src/app/pages/photos/photos.module').then(m => m.PhotosModule)
+            }
+        ]
+    },
+    {
+        path: '',
+        children: [
+            {
+                path: 'reports',
+                canActivate: [AuthenticationGuard],
+                loadChildren: () => import('src/app/pages/reports/reports.module').then(m => m.ReportsModule)
             }
         ]
     }

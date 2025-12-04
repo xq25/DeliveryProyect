@@ -1,0 +1,8 @@
+<div *ngFor="let tableName of tableNames; let i = index">
+  <app-smart-chart
+    [mode]="mode"
+    [tableName]="tableNames[i]"
+    [question]="questions[i]"
+    [data]="data[i]">
+  </app-smart-chart>
+</div>
