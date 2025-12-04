@@ -122,5 +122,15 @@ export const AdminLayoutRoutes: Routes = [
                 loadChildren: () => import('src/app/pages/photos/photos.module').then(m => m.PhotosModule)
             }
         ]
+    },
+    {
+        path: '',
+        children: [
+            {
+                path: 'reports',
+                canActivate: [AuthenticationGuard],
+                loadChildren: () => import('src/app/pages/reports/reports.module').then(m => m.ReportsModule)
+            }
+        ]
     }
 ];

@@ -1,0 +1,28 @@
+.chart-wrapper {
+  width: 100%;
+  max-width: 650px;
+  margin: 0 auto;
+  background: #ffffff;
+  padding: 1.5rem;
+  border-radius: 14px;
+  box-shadow: 0 5px 18px rgba(0,0,0,0.08);
+}
+
+.chart-title {
+  text-align: center;
+  margin-bottom: 0.3rem;
+  font-weight: 700;
+  font-size: 1.3rem;
+}
+
+.chart-question {
+  text-align: center;
+  font-size: 0.95rem;
+  margin-bottom: 1.4rem;
+  color: #555;
+}
+
+.chart-box {
+  display: flex;
+  justify-content: center;
+}

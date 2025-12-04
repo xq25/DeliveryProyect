@@ -10,6 +10,8 @@ import { TableComponent } from './table/table.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DynamicFormComponent } from './dynamic-form/dynamic-form.component';
 import { NotificationComponent } from './notification/notification.component';
+import { SmartChartComponent } from './smart-chart/smart-chart.component';
+import { NgChartsModule } from 'ng2-charts';
 
 @NgModule({
   imports: [
@@ -17,6 +19,7 @@ import { NotificationComponent } from './notification/notification.component';
     RouterModule,
     NgbModule,
     ReactiveFormsModule,
+    NgChartsModule
   ],
   declarations: [
     FooterComponent,
@@ -25,6 +28,7 @@ import { NotificationComponent } from './notification/notification.component';
     TableComponent,
     DynamicFormComponent,
     NotificationComponent,
+    SmartChartComponent,
   ],
   exports: [
     FooterComponent,
@@ -32,6 +36,7 @@ import { NotificationComponent } from './notification/notification.component';
     SidebarComponent, 
     TableComponent,
     DynamicFormComponent,
+    SmartChartComponent,
   ]
 })
 export class ComponentsModule { }

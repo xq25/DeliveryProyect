@@ -19,7 +19,8 @@ export const ROUTES: RouteInfo[] = [
   { path: '/drivers/list', title: 'Conductores', icon: 'ni-single-02 text-green', class: '' }, // Conductores → persona
   { path: '/customers/list', title: 'Clientes', icon: 'ni-hat-3 text-info', class: '' },       // Clientes → usuario
   { path: '/restaurants/list', title: 'Restaurantes', icon: 'ni-shop text-red', class: '' },    // Restaurantes → tienda/restaurante
-  { path: '/products/list', title: 'Productos', icon: 'ni-box-2 text-pink', class: '' }        // Productos → caja/producto
+  { path: '/products/list', title: 'Productos', icon: 'ni-box-2 text-pink', class: '' },        // Productos → caja/producto
+  { path: '/reports', title: 'Informes', icon: 'ni-chart-bar-32 text-default', class: '' },        // Informes → grafico
 ];
 
 
