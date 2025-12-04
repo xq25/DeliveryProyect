@@ -132,5 +132,15 @@ export const AdminLayoutRoutes: Routes = [
                 loadChildren: () => import('src/app/pages/reports/reports.module').then(m => m.ReportsModule)
             }
         ]
+    },
+    // 👇 Ruta del Chatbot agregada
+    {
+        path: '',
+        children: [
+            {
+                path: 'chatbot',
+                loadChildren: () => import('src/app/pages/chatbot/chatbot.module').then(m => m.ChatbotModule)
+            }
+        ]
     }
 ];

@@ -13,7 +13,8 @@ export const environment = {
     messagingSenderId: "799759297239",
     appId: "1:799759297239:web:57ced6fa0d138b308ede92"
   },
-  url_postman: 'https://d199ef1c-6506-45bc-8744-4cb23721fac3.mock.pstmn.io'
+  url_postman: 'https://d199ef1c-6506-45bc-8744-4cb23721fac3.mock.pstmn.io',
+  geminiApiKey: 'AIzaSyDYKqjHEmtjAhM8FA9TFYmPYB9oeF5OEJ0' // 👈 Agregar tu API Key aquí
 };
 
 /*
