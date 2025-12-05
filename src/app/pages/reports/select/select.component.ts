@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-select',
@@ -7,9 +8,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SelectComponent implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
+  }
+  showBarCharts() {
+    this.router.navigate(['/reports/barChart']);
+  }
+  showPieCharts() {
+    this.router.navigate(['/reports/pieChart']);
+  }
+  showTimeSeriesCharts() {
+    this.router.navigate(['/reports/timeSeriesGraph']);
   }
 
 }

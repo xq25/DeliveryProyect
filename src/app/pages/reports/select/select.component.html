@@ -1,1 +1,39 @@
-<p>select works!</p>
+<div class="dashboard-container">
+
+  <h1>Sistema de Gestión de Datos</h1>
+  <h2>y Representación Gráfica</h2>
+
+    <p class="description">
+        El presente módulo, denominado <strong>Sistema de Gestión de Datos y Representación Gráfica</strong>,
+        constituye un eje fundamental dentro de la plataforma, al permitir la organización, visualización 
+        e interpretación de la información registrada por las distintas entidades del sistema.
+        <br><br>
+        A través de mecanismos de representación visual, este apartado facilita la comprensión intuitiva
+        de los datos, destacando relaciones, tendencias, patrones y variaciones relevantes que pueden 
+        pasar desapercibidas en formatos tradicionales. Estas visualizaciones están diseñadas con un 
+        enfoque analítico, brindando al usuario herramientas que respaldan la toma de decisiones 
+        informadas en procesos de planificación, evaluación y formulación de estrategias.
+        <br><br>
+        La información presentada en este módulo constituye un insumo clave para el análisis del impacto
+        socioeconómico de la aplicación, así como para la optimización de los recursos y del flujo
+        operativo al interior del sistema. Seleccione a continuación el tipo de representación gráfica
+        que desea consultar.
+    </p>
+
+  <div class="buttons-section">
+    
+    <button class="chart-btn pie" (click)="showPieCharts()">
+      📊 Gráficos Circulares
+    </button>
+
+    <button class="chart-btn bar" (click)="showBarCharts()">
+      📈 Gráficos de Barras
+    </button>
+
+    <button class="chart-btn time" (click)="showTimeSeriesCharts()">
+      ⏳ Gráficos de Series Temporales
+    </button>
+
+  </div>
+
+</div>

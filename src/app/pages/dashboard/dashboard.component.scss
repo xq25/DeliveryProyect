@@ -1,0 +1,23 @@
+.header {
+  border-bottom-left-radius: 40px;
+  border-bottom-right-radius: 40px;
+}
+
+.card {
+  border-radius: 20px;
+}
+
+.btn-primary {
+  border-radius: 30px;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(94, 114, 228, 0.4);
+}
+
+.header-body p {
+  line-height: 1.8;
+}

@@ -1,0 +1,88 @@
+.dashboard-container {
+  width: 100%;
+  padding: 50px 40px;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f43f5e, #fb923c);
+  border-radius: 20px;
+  color: white;
+}
+
+/* TITULOS */
+.dashboard-container h1 {
+  font-size: 2.6rem;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+.dashboard-container h2 {
+  font-size: 1.4rem;
+  color: #f1f5f9;
+  margin-bottom: 25px;
+}
+
+/* TEXTO */
+.description {
+  max-width: 900px;
+  font-size: 1.05rem;
+  line-height: 1.8;
+  margin-bottom: 40px;
+  color: #f8fafc;
+}
+
+/* SECCIÓN DE BOTONES */
+.buttons-section {
+  display: flex;
+  gap: 25px;
+  flex-wrap: wrap;
+}
+
+/* BOTONES */
+.chart-btn {
+  flex: 1;
+  min-width: 230px;
+  padding: 20px;
+  border: none;
+  border-radius: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 15px;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+  background: white;
+}
+
+.chart-btn:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 15px 35px rgba(0, 0, 0, 0.25);
+}
+
+/* ESTILOS INDIVIDUALES */
+.chart-btn.pie {
+  border-left: 6px solid #f97316;
+  color: #ea580c;
+}
+
+.chart-btn.bar {
+  border-left: 6px solid #22c55e;
+  color: #16a34a;
+}
+
+.chart-btn.time {
+  border-left: 6px solid #6366f1;
+  color: #4f46e5;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .buttons-section {
+    flex-direction: column;
+  }
+
+  .dashboard-container {
+    padding: 30px 20px;
+  }
+
+  .dashboard-container h1 {
+    font-size: 2rem;
+  }
+}
