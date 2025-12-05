@@ -1,0 +1,156 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+      <div class="row">
+        <div class="col">
+          <h1 class="text-white">Chatbot Inteligente</h1>
+          <p class="text-white mt-0 mb-4">Asistente virtual con voz sintética</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid mt--7">
+  <div class="row">
+    <div class="col">
+      <div class="card shadow">
+        <div class="card-header border-0">
+          <div class="row align-items-center">
+            <div class="col">
+              <h3 class="mb-0">
+                <i class="ni ni-chat-round text-primary"></i> 
+                Chat con el Asistente Virtual
+              </h3>
+            </div>
+            <div class="col text-right">
+              <!-- Botón para activar/desactivar voz -->
+              <button 
+                class="btn btn-sm"
+                [ngClass]="voiceEnabled ? 'btn-success' : 'btn-secondary'"
+                (click)="toggleVoice()"
+                title="Activar/Desactivar voz">
+                <i class="ni" [ngClass]="voiceEnabled ? 'ni-sound-wave' : 'ni-button-pause'"></i>
+                {{ voiceEnabled ? 'Voz Activada' : 'Voz Desactivada' }}
+              </button>
+              
+              <!-- Botón para detener voz -->
+              <button 
+                *ngIf="isSpeaking"
+                class="btn btn-sm btn-warning ml-2"
+                (click)="stopSpeaking()"
+                title="Detener voz">
+                <i class="ni ni-button-pause"></i>
+                Detener
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body">
+          <!-- Avatar Animado con imagen -->
+          <div class="text-center mb-4">
+            <div class="avatar-container" [ngClass]="{'speaking': isSpeaking || isLoading}">
+              <div class="avatar-circle">
+                <img 
+                  src="assets/img/chatbot-avatar.png" 
+                  alt="Asistente Virtual"
+                  class="avatar-image">
+              </div>
+              <div class="avatar-status">
+                <span *ngIf="isLoading" class="badge badge-warning">Pensando...</span>
+                <span *ngIf="isSpeaking && !isLoading" class="badge badge-success">
+                  <i class="ni ni-sound-wave"></i> Hablando
+                </span>
+                <span *ngIf="!isLoading && !isSpeaking" class="badge badge-info">En línea</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Preguntas rápidas -->
+          <div class="mb-4" *ngIf="messages.length <= 1">
+            <h5 class="mb-3">Preguntas frecuentes:</h5>
+            <div class="d-flex flex-wrap gap-2">
+              <button
+                *ngFor="let question of quickQuestions"
+                class="btn btn-sm btn-outline-primary mb-2 me-2"
+                (click)="sendQuickQuestion(question)"
+                [disabled]="isLoading">
+                {{ question }}
+              </button>
+            </div>
+          </div>
+
+          <!-- Contenedor de mensajes -->
+          <div
+            #chatContainer
+            class="chat-container mb-4"
+            style="height: 400px; overflow-y: auto; border: 1px solid #e9ecef; border-radius: 0.375rem; padding: 1rem;">
+            
+            <div *ngFor="let message of messages" class="mb-3">
+              <div
+                [ngClass]="{
+                  'd-flex justify-content-end': message.isUser,
+                  'd-flex justify-content-start': !message.isUser
+                }">
+                <div
+                  [ngClass]="{
+                    'bg-primary text-white': message.isUser,
+                    'bg-light text-dark': !message.isUser
+                  }"
+                  style="max-width: 75%; padding: 0.75rem 1rem; border-radius: 1rem;">
+                  
+                  <div class="d-flex align-items-center mb-2">
+                    <i 
+                      [ngClass]="message.isUser ? 'ni ni-single-02' : 'ni ni-chat-round'"
+                      class="me-2">
+                    </i>
+                    <strong style="font-size: 0.875rem;">
+                      {{ message.isUser ? 'Tú' : 'Asistente' }}
+                    </strong>
+                  </div>
+
+                  <div style="white-space: pre-wrap; word-wrap: break-word;">
+                    {{ message.text }}
+                  </div>
+
+                  <div class="text-end mt-2" style="font-size: 0.75rem; opacity: 0.7;">
+                    {{ message.timestamp | date:'short' }}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Indicador de carga -->
+            <div *ngIf="isLoading" class="d-flex justify-content-start mb-3">
+              <div class="bg-light" style="padding: 0.75rem 1rem; border-radius: 1rem;">
+                <div class="spinner-border spinner-border-sm text-primary" role="status">
+                  <span class="sr-only">Cargando...</span>
+                </div>
+                <span class="ms-2">Escribiendo...</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Input de mensaje -->
+          <div class="input-group">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Escribe tu pregunta aquí..."
+              [(ngModel)]="userInput"
+              (keypress)="onKeyPress($event)"
+              [disabled]="isLoading">
+            <button
+              class="btn btn-primary"
+              type="button"
+              (click)="sendMessage()"
+              [disabled]="!userInput.trim() || isLoading">
+              <i class="ni ni-send"></i> Enviar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

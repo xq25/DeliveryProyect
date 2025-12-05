@@ -14,21 +14,32 @@ import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 
-//OAuth
+// OAuth
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 import { provideAuth, getAuth } from '@angular/fire/auth';
 import { environment } from '../environments/environment';
 
+// 👇 Socket.IO
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+
+const config: SocketIoConfig = { 
+  url: environment.url_backend, // 'http://127.0.0.1:5000'
+  options: {
+    transports: ['websocket', 'polling'],
+    autoConnect: true
+  }
+};
 
 @NgModule({
   imports: [
     BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,
-    ComponentsModule, // Aqui esta la iomportacion del modulo de componentes
+    ComponentsModule,
     NgbModule,
     RouterModule,
     AppRoutingModule,
+    SocketIoModule.forRoot(config), // 👈 Configurar Socket.IO
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth())
   ],
@@ -41,7 +52,7 @@ import { environment } from '../environments/environment';
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
-      multi: true   // 👈 importante: permite múltiples interceptores
+      multi: true
     }
   ],
   bootstrap: [AppComponent]

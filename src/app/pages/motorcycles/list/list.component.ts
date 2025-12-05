@@ -15,9 +15,11 @@ export class ListComponent implements OnInit {
   headers: string[] = [];
   actionButtons = [
     { label: 'Ver', class: 'btn btn-info btn-sm', action: 'view' },
+    { label: 'Ver Ruta 🗺️', class: 'btn btn-success btn-sm', action: 'track' }, // 👈 Nuevo botón
     { label: 'Editar', class: 'btn btn-warning btn-sm', action: 'edit' },
     { label: 'Eliminar', class: 'btn btn-danger btn-sm', action: 'delete' }
   ];
+  
   constructor(private service: MotorcyclesService, private router: Router) { }
 
   ngOnInit(): void {
@@ -28,9 +30,16 @@ export class ListComponent implements OnInit {
       }
     });
   }
+  
   view(id: number){
     this.router.navigate([`/motorcycles/view/${id}`])
   }
+  
+  // 👇 Nuevo método para ver ruta
+  track(motorcycle: Motorcycle){
+    this.router.navigate([`/motorcycles/track/${motorcycle.license_plate}`]);
+  }
+  
   delete(id: number) {
       console.log("Delete motorcycle with id:", id);
       Swal.fire({
@@ -56,9 +65,11 @@ export class ListComponent implements OnInit {
         }
       })
   }
+  
   lookIssues(){
     this.router.navigate(['/issues/list']);
   }
+  
   create(){
     this.router.navigate([`/motorcycles/create`])
   }
@@ -76,6 +87,9 @@ export class ListComponent implements OnInit {
     }
     else if (event.action === 'view'){
       this.view(event.row.id);
+    }
+    else if (event.action === 'track'){ // 👈 Nuevo handler
+      this.track(event.row);
     }
   }
 }
