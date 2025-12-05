@@ -295,6 +295,6 @@ export class TrackComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   goBack() {
-    this.router.navigate(['/motorcycles']);
+    this.router.navigate(['/motorcycles/list']);
   }
 }
