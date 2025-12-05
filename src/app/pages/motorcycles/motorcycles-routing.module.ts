@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ListComponent } from './list/list.component';
 import { ManageComponent } from './manage/manage.component';
+import { TrackComponent } from './track/track.component'; // 👈 Importar
 
 const routes: Routes = [
   {
@@ -20,7 +21,10 @@ const routes: Routes = [
     path: 'create',
     component: ManageComponent
   },
-  
+  {
+    path: 'track/:plate', // 👈 Nueva ruta
+    component: TrackComponent
+  }
 ];
 
 @NgModule({

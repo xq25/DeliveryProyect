@@ -36,4 +36,14 @@ export class MotorcyclesService {
   delete(id: number): Observable<Motorcycle> {
     return this.http.delete<Motorcycle>(`${environment.url_backend}/motorcycles/${id}`);
   }
+
+  /** Iniciar tracking de una motocicleta */
+  startTracking(plate: string): Observable<any> {
+    return this.http.post<any>(`${environment.url_backend}/motorcycles/track/${plate}`, {});
+  }
+
+  /** Detener tracking de una motocicleta */
+  stopTracking(plate: string): Observable<any> {
+    return this.http.post<any>(`${environment.url_backend}/motorcycles/stop/${plate}`, {});
+  }
 }

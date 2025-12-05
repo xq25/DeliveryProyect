@@ -1,0 +1,150 @@
+<div class="header bg-gradient-success pb-6 pt-5 pt-md-7">
+  <div class="container-fluid">
+    <div class="header-body">
+      <div class="row">
+        <div class="col-lg-8">
+          <h1 class="text-white mb-0">
+            <i class="ni ni-delivery-fast"></i> Tracking GPS - {{ plate }}
+          </h1>
+          <p class="text-white text-sm mt-2 mb-0">
+            Seguimiento en tiempo real
+          </p>
+        </div>
+        <div class="col-lg-4 text-right">
+          <button class="btn btn-white btn-sm" (click)="goBack()">
+            <i class="ni ni-bold-left"></i> Volver
+          </button>
+          <button 
+            class="btn btn-sm ml-2"
+            [ngClass]="isTracking ? 'btn-danger' : 'btn-success'"
+            (click)="isTracking ? stopTracking() : startTracking()">
+            <i [ngClass]="isTracking ? 'ni ni-button-pause' : 'ni ni-button-play'"></i>
+            {{ isTracking ? 'Detener' : 'Iniciar' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid mt--6">
+  <!-- Tarjetas de información -->
+  <div class="row">
+    <!-- Placa -->
+    <div class="col-xl-3 col-lg-6 mb-4">
+      <div class="card card-stats shadow">
+        <div class="card-body">
+          <div class="row">
+            <div class="col">
+              <h5 class="card-title text-uppercase text-muted mb-0">Placa</h5>
+              <span class="h2 font-weight-bold mb-0">{{ plate }}</span>
+            </div>
+            <div class="col-auto">
+              <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
+                <i class="ni ni-planet"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Latitud -->
+    <div class="col-xl-3 col-lg-6 mb-4">
+      <div class="card card-stats shadow">
+        <div class="card-body">
+          <div class="row">
+            <div class="col">
+              <h5 class="card-title text-uppercase text-muted mb-0">Latitud</h5>
+              <span class="h4 font-weight-bold mb-0" *ngIf="currentLocation">
+                {{ currentLocation.latitude | number:'1.4-4' }}
+              </span>
+              <span class="text-muted" *ngIf="!currentLocation">--</span>
+            </div>
+            <div class="col-auto">
+              <div class="icon icon-shape bg-warning text-white rounded-circle shadow">
+                <i class="ni ni-pin-3"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Longitud -->
+    <div class="col-xl-3 col-lg-6 mb-4">
+      <div class="card card-stats shadow">
+        <div class="card-body">
+          <div class="row">
+            <div class="col">
+              <h5 class="card-title text-uppercase text-muted mb-0">Longitud</h5>
+              <span class="h4 font-weight-bold mb-0" *ngIf="currentLocation">
+                {{ currentLocation.longitude | number:'1.4-4' }}
+              </span>
+              <span class="text-muted" *ngIf="!currentLocation">--</span>
+            </div>
+            <div class="col-auto">
+              <div class="icon icon-shape bg-success text-white rounded-circle shadow">
+                <i class="ni ni-compass-04"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Estado -->
+    <div class="col-xl-3 col-lg-6 mb-4">
+      <div class="card card-stats shadow">
+        <div class="card-body">
+          <div class="row">
+            <div class="col">
+              <h5 class="card-title text-uppercase text-muted mb-0">Estado</h5>
+              <span *ngIf="isTracking" class="badge badge-success badge-lg">
+                <i class="ni ni-sound-wave"></i> ACTIVO
+              </span>
+              <span *ngIf="!isTracking" class="badge badge-secondary badge-lg">
+                <i class="ni ni-button-pause"></i> INACTIVO
+              </span>
+            </div>
+            <div class="col-auto">
+              <div class="icon icon-shape bg-info text-white rounded-circle shadow">
+                <i class="ni ni-chart-bar-32"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mapa -->
+  <div class="row">
+    <div class="col-12">
+      <div class="card shadow">
+        <div class="card-header bg-white">
+          <h3 class="mb-0">
+            <i class="ni ni-world-2 text-primary"></i> Mapa en Tiempo Real
+            <span *ngIf="currentLocation" class="badge badge-success ml-2">
+              <i class="ni ni-time-alarm"></i> {{ currentLocation.timestamp | date:'shortTime' }}
+            </span>
+          </h3>
+        </div>
+        <div class="card-body">
+          <!-- Indicador de carga -->
+          <div *ngIf="!currentLocation && isTracking" class="text-center py-5">
+            <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+              <span class="sr-only">Cargando...</span>
+            </div>
+            <p class="mt-3 text-muted">
+              <i class="ni ni-compass-04"></i> Esperando señal GPS...
+            </p>
+          </div>
+
+          <!-- Mapa -->
+          <div id="map"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
